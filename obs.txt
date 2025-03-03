@@ -1,0 +1,4 @@
+instalar node: https://nodejs.org/en
+instalar git bash: https://git-scm.com/downloads
+instalar github pages para rodar react: npm install gh-pages --save-dev
+
