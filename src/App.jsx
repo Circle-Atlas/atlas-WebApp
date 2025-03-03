@@ -1,5 +1,4 @@
-import { useState } from 'react'
-import './App.css'
+import './global.css'
 import Content from "./components/Content/Content.jsx"
 
 function App() {
@@ -7,7 +6,7 @@ function App() {
   return (
     <>
       <main>
-        <Content page = "LOGIN"/>
+        <Content/>
       </main>
     </>
   )
