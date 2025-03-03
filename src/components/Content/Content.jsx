@@ -1,4 +1,5 @@
 import { useState } from "react"
+import { SignIn } from "../../database/authentication";
 
 export default function Content() {
 
@@ -29,13 +30,13 @@ export default function Content() {
                                 </div>
                             </div>
                             <div id="buttons-container">
-                                <button id="btn-login">Entrar</button>
+                                <button id="btn-login" onClick={() => {SignIn("LOGIN_PASS", document.getElementById("email").value, document.getElementById("password").value)}}>Entrar</button>
                                 <a href="" id="esqueci-senha" onClick={(e) => { e.preventDefault(); setSelectedPage("FORGOT_PASSWORD"); }}>Esqueci minha senha</a>
                             </div>
                             <p id="p-ou">OU</p>
                             <div id="buttons-login-api">
-                                <button id="btn-apple"></button>
-                                <button id="btn-google"></button>
+                                <button id="btn-apple" onClick={() => SignIn("LOGIN_APPLE")}>Apple</button>
+                                <button id="btn-google" onClick={() => SignIn("LOGIN_GOOGLE")}>Google</button>
                             </div>
                         </div>
                     </div>
