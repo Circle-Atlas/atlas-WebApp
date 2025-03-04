@@ -102,9 +102,7 @@ export default function Content() {
             return(
                 <Main MAIN="MAIN_MENU"/>
             )
-
-
-
+            
         default:
             return <div>Página não encontrada</div>;
     }

@@ -18,8 +18,12 @@ function generateCompetencePrompt(THEME, MODEL, TITLE, CONTENT, index, descripti
         Redação:
         ${CONTENT}
 
-        Avalie a redação e dê uma nota de 0-200 com foco na seguinte competência:
+        Avalie a redação com foco na seguinte competência:
         ${index}. ${description}
+
+        Inclua uma chave no formato "Competence${index}", cujo valor seja um array contendo:
+        - Nota da competência (0 a 200).
+        - Uma curta e direta análise específica (com menos de 700 caracteres).
 
         Retorne os resultados exatamente nesse formato JSON:
         {
