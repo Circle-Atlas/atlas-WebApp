@@ -44,7 +44,7 @@ export default function Main({ MAIN }) {
                             </div>
                             <div id="corrected-essays-container">
                                 {/* Aqui ele faz um loop e para cada redação corrigida ele cria uma div com a class "corrected-essay" 
-                                e com o tema e a pontuação final, então se tu quiser estilizar a div, usa ".corrected-essay" */}
+                                e com o tema e a pontuação final */}
                                 {essays.length > 0 ? (
                                     essays.map((essay) => (
                                         <div className="corrected-essay" key={essay.id}>
