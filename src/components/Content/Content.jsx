@@ -100,6 +100,7 @@ export default function Content() {
     // Página Home
         case "HOME":
             return(
+                // Aqui pra tu ver as divs vai la em Main/Main.jsx
                 <Main MAIN="MAIN_MENU"/>
             )
             

@@ -3,6 +3,8 @@ import { AnalyzeEssay } from "../../api/aixplain.js";
 import { SaveEssay, GetEssays } from "../../database/essays.js";
 
 export default function Main({ MAIN }) {
+    // Igonra isso
+
     const user = JSON.parse(localStorage.getItem("USER"));
     
     const [selectedMain, setSelectedMain] = useState(MAIN);
@@ -18,7 +20,10 @@ export default function Main({ MAIN }) {
         fetchEssays();
     }, []);
 
+    // Até aqui
+
     switch (selectedMain) {
+        // Página principal
         case "MAIN_MENU":
             return (
                 <main>
@@ -38,25 +43,27 @@ export default function Main({ MAIN }) {
                                 </button>
                             </div>
                             <div id="corrected-essays-container">
-                            {essays.length > 0 ? (
-                                essays.map((essay) => (
-                                    <div className="corrected-essay" key={essay.id}>
-                                        <p>{essay.theme}</p>
-                                        <p>{essay.finalScore}</p>
+                                {/* Aqui ele faz um loop e para cada redação corrigida ele cria uma div com a class "corrected-essay" 
+                                e com o tema e a pontuação final, então se tu quiser estilizar a div, usa ".corrected-essay" */}
+                                {essays.length > 0 ? (
+                                    essays.map((essay) => (
+                                        <div className="corrected-essay" key={essay.id}>
+                                            <p>{essay.theme}</p>
+                                            <p>{essay.finalScore}</p>
+                                        </div>
+                                    ))
+                                ) : (
+                                    <div className="corrected-essay">
+                                        <p>Você não corrigiu nenhuma redação!</p>
                                     </div>
-                                ))
-                            ) : (
-                                <div className="corrected-essay">
-                                    <p>Você não corrigiu nenhuma redação!</p>
-                                </div>
-                            )}
+                                )}
                             </div>
                         </div>   
                     </header>
                     <section></section>
                 </main>
             );
-
+        // Página de escrita da redação
         case "WRITE_ESSAY":
             return (
                 <main>
@@ -81,6 +88,10 @@ export default function Main({ MAIN }) {
                             </button>
                         </div>
                         <button id="correct" onClick={async () => {
+                            
+                            // Isso tu ignora pois é o que vai acontecer no click do botão 
+                            // que no caso vai enviar para a API corrigir a redação
+
                             const title = document.getElementById("essay-title").value.trim() || "Sem título";
                             const content = document.getElementById("essay-content").value.trim();
                             const theme = document.getElementById("theme").value.trim() || "Sem tema";
@@ -109,6 +120,8 @@ export default function Main({ MAIN }) {
                                     alert("Erro ao salvar redação.");
                                 }
                             }
+
+                            // Até aqui
                         }}>
                             Corrigir
                         </button>
@@ -119,7 +132,7 @@ export default function Main({ MAIN }) {
                     </div>
                 </main>
             );
-
+        // Página após correção da redação
         case "ESSAY_CORRECTION":
             const lastEssay = JSON.parse(localStorage.getItem("LastEssay")) || {};
             console.log(lastEssay)
@@ -131,10 +144,11 @@ export default function Main({ MAIN }) {
                         <h2>Tema</h2>
                         <textarea readOnly value={lastEssay.theme || "Sem tema"} style={{ resize: "none" }} />
                         <h2>Redação</h2>
+                        {/* Aqui adicionei uns estilos no próprio textarea só para ficar mais visível, mas tu pode remover */}
                         <textarea readOnly value={lastEssay.title || "Sem tema"} style={{ resize: "none", height: "fit-content" }} />
                         <textarea readOnly value={lastEssay.content || "Sem tema"} style={{ display: "flex", resize: "none", height: "80vh" }} />
                     </div>
-
+                    {/* Aqui para mim está auto explicativo */}
                     <div id="container-right">
                         <h1>{lastEssay.Final_Score}</h1>
                         <h2>Análise Geral</h2>
