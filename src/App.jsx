@@ -1,5 +1,5 @@
-import './global.css'
-import './login.css'
+import './styles/global.css'
+import './styles/login.css'
 import Content from "./components/Content/Content.jsx"
 
 function App() {
