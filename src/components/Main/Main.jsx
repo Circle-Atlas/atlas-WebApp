@@ -1,25 +1,57 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { AnalyzeEssay } from "../../api/aixplain.js";
+import { SaveEssay, GetEssays } from "../../database/essays.js";
 
 export default function Main({ MAIN }) {
+    const user = JSON.parse(localStorage.getItem("USER"));
+    
     const [selectedMain, setSelectedMain] = useState(MAIN);
+
+    const [essays, setEssays] = useState([]);
+
+    useEffect(() => {
+        async function fetchEssays() {
+            const fetchedEssays = await GetEssays();
+            setEssays(fetchedEssays || []);
+        }
+
+        fetchEssays();
+    }, []);
 
     switch (selectedMain) {
         case "MAIN_MENU":
             return (
                 <main>
                     <header>
-                        <div id="greetings-container">
-                            <h1 id="greetings-h1">
-                                Bom dia, {JSON.parse(localStorage.getItem("USER"))?.displayName || "Usuário"}!
-                            </h1>
-                            <p id="greetings-p">“Aprender é crescer, sempre em frente!”</p>
+                        <div id="left-container">
+                            <div id="greetings-container">
+                                <h1 id="greetings-h1">
+                                    Bom dia, {JSON.parse(localStorage.getItem("USER"))?.displayName || "Usuário"}!
+                                </h1>
+                                <p id="greetings-p">“Aprender é crescer, sempre em frente!”</p>
+                            </div>
                         </div>
-                        <div id="new-essay-container">
-                            <button id="new-essay" onClick={() => setSelectedMain("WRITE_ESSAY")}>
-                                Escrever Redação
-                            </button>
-                        </div>
+                        <div id="right-container">
+                            <div id="new-essay-container">
+                                <button id="new-essay" onClick={() => setSelectedMain("WRITE_ESSAY")}>
+                                    Escrever Redação
+                                </button>
+                            </div>
+                            <div id="corrected-essays-container">
+                            {essays.length > 0 ? (
+                                essays.map((essay) => (
+                                    <div className="corrected-essay" key={essay.id}>
+                                        <p>{essay.theme}</p>
+                                        <p>{essay.finalScore}</p>
+                                    </div>
+                                ))
+                            ) : (
+                                <div className="corrected-essay">
+                                    <p>Você não corrigiu nenhuma redação!</p>
+                                </div>
+                            )}
+                            </div>
+                        </div>   
                     </header>
                     <section></section>
                 </main>
@@ -69,7 +101,13 @@ export default function Main({ MAIN }) {
                                     theme,
                                     model
                                 }));
-                                setSelectedMain("ESSAY_CORRECTION");
+                                const essaySaved = await SaveEssay(theme, model, title, content, analysis.General_Analysis, analysis.Final_Score);
+
+                                if(essaySaved.success) {
+                                    setSelectedMain("ESSAY_CORRECTION");
+                                } else {
+                                    alert("Erro ao salvar redação.");
+                                }
                             }
                         }}>
                             Corrigir
@@ -85,6 +123,7 @@ export default function Main({ MAIN }) {
         case "ESSAY_CORRECTION":
             const lastEssay = JSON.parse(localStorage.getItem("LastEssay")) || {};
             console.log(lastEssay)
+
             return (
                 <main>
                     <div id="container-left">
