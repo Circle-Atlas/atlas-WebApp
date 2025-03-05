@@ -45,6 +45,7 @@ export default function Main({ MAIN }) {
                             <div id="corrected-essays-container">
                                 {/* Aqui ele faz um loop e para cada redação corrigida ele cria uma div com a class "corrected-essay" 
                                 e com o tema e a pontuação final */}
+                                <h3>Redações Corrigidas</h3>
                                 {essays.length > 0 ? (
                                     essays.map((essay) => (
                                         <div className="corrected-essay" key={essay.id}>
