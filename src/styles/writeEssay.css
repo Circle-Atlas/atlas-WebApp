@@ -1,0 +1,307 @@
+#detalhe-fundo-redacao {
+    width: 100vw;
+    height: 300px;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+#nav-bar-redacao {
+    width: 220px;
+    height: 680px;
+    border-radius: 20px;
+
+    margin-left: 20px;
+    margin-top: -100px;
+
+    position: absolute;
+}
+
+#icone-redacao {
+    width: 50px;
+    height: 50px;
+
+    margin: 20px 0px 0px 20px;
+    box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.2);
+    background-image: url(/src/assets/perfil.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    border: none;
+
+    display: flex;
+
+    border-radius: 15px;
+
+    position: absolute;
+    z-index: 2;
+
+    cursor: pointer;
+}
+
+#jornada-redacao {
+    width: 250px;
+    height: 70px;
+
+    margin: 110px 0px 0px 20px;
+    background-color: var(--cor-principal);
+    border: none;
+    box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.2);
+
+    border-radius: 20px;
+
+    position: absolute;
+    z-index: 1;
+
+    font-family: 'sf-pro-hounded-medium';
+    font-size: 23px;
+    letter-spacing: 1px;
+    color: white;
+
+    background-image: url(/src/assets/logoJornada.png);
+    background-repeat: no-repeat;
+    background-position: left;
+    background-position: 40px;
+
+    display: flex;
+    align-items: center;
+    flex-direction: row-reverse;
+
+    padding-right: 70px;
+
+    cursor: pointer;
+}
+
+#temas-redacao {
+    width: 190px;
+    height: 70px;
+
+    margin: 210px 0px 0px 20px;
+    background-color: var(--fundo-card-login);
+    border: none;
+    box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.2);
+
+    border-radius: 20px;
+
+    position: absolute;
+    z-index: 1;
+
+    font-family: 'sf-pro-hounded-medium';
+    font-size: 23px;
+    letter-spacing: 1px;
+    color: black;
+
+    background-image: url(/src/assets/logoTemas.png);
+    background-repeat: no-repeat;
+    background-position: left;
+    background-position: 20px;
+
+    padding-left: 20px;
+
+    cursor: pointer;
+}
+
+#logo-atlas-redacao {
+    width: 130px;
+    height: 40px;
+
+    margin-top: 590px;
+    margin-left: 35px;
+
+    position: absolute;
+    z-index: 1;
+}
+
+#card-redacao {
+    width: 1550px;
+    height: 830px;
+    background-color: var(--fundo-card-login);
+    box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.2);
+    border-radius: 20px;
+
+    position: absolute;
+
+    margin-top: -250px;
+    margin-left: 250px;
+}
+
+#container-left-redacao {
+    width: 600px;
+    height: 100px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#meninaEscrevendo {
+    width: 370px;
+    height: 370px;
+
+    position: relative;
+}
+
+#back-btn {
+    width: 10px;
+    padding: 16px;
+    margin-right: 500px;
+    margin-left: 10px;
+    border: none;
+
+    background-image: url(/src/assets/backIcon.png);
+    background-repeat: no-repeat;
+    cursor: pointer;
+
+    margin-top: 30px;
+}
+
+#inf-redacao {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+
+    position: absolute;
+
+    margin-top: 430px;
+}
+
+label {
+    font-family: 'sf-pro-hounded-regular';
+    font-size: 20px;
+}
+
+#temaRoxo {
+    color: #762D6F;
+    font-family: 'sf-pro-hounded-bold'; 
+}
+
+#text-redacao {
+    display: flex;
+    flex-direction: row;
+}
+
+#hamburguer {
+    width: 50px;
+    height: 50px;
+
+    border-radius: 30px;
+    background-color: #762D6F;
+    border: none;
+
+    background-image: url(/src/assets/hamburguer.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    cursor: pointer;
+
+    margin-left: 10px;
+}
+
+#theme {
+    width: 300px;
+
+    margin-left: 50px;
+    margin-bottom: 20px;
+
+    font-size: 16px;
+}
+
+#model {
+    display: flex;
+    gap: 40px;   
+}
+
+.modelType {
+    width: 140px;
+    padding: 15px;
+    border-radius: 30px;
+
+    font-family: 'sf-pro-hounded-bold';
+    font-size: 16px;
+    color: var(--cor-principal);
+    border: 2px solid transparent;
+
+    cursor: pointer;
+    
+
+    box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.1);
+}
+
+.modelType {
+    width: 140px;
+    padding: 15px;
+    border-radius: 30px;
+
+    font-family: 'sf-pro-hounded-bold';
+    font-size: 16px;
+    color: var(--cor-principal);
+    border: none;
+
+    background-color: var(--fundo-card-login);
+    box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.1);
+
+    cursor: pointer;
+    
+}
+
+.selected {
+    border: 2px solid var(--cor-principal);
+}
+
+#correct {
+    width: 140px;
+    padding: 10px;
+    border-radius: 30px;
+
+    margin-top: 30px;
+
+    background-color: #762D6F;
+
+    font-family: 'sf-pro-hounded-bold';
+    color: white;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+}
+
+#container-right-redacao {
+    width: 800px;
+    height: 724px;
+
+    margin-left: 700px;
+    margin-top: -50px;
+
+    display: flex;
+    flex-direction: column;
+}
+
+#essay-title {
+    width: 720px;
+    padding: 10px;
+
+    resize: none;
+
+    border-radius: 10px;
+    box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.2);
+    border: none;
+
+    font-family: 'sf-pro-hounded-medium';
+    font-size: 16px;
+}
+
+#essay-content {
+    width: 700px;
+    padding: 20px;
+    height: 610px;
+
+    resize: none;
+
+    border-radius: 20px;
+    box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.2);
+    border: none;
+
+    margin-top: 20px;
+
+    font-family: 'sf-pro-hounded-medium';
+    font-size: 18px;
+}

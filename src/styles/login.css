@@ -1,0 +1,225 @@
+/* config background */
+#page-login {
+    display: flex;
+}
+
+#detalhe-fundo-login {
+    width: 100vw;
+    height: 300px;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+/* Config. container esquerdo */
+
+#container-left-login {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    position: absolute;
+    margin-left: 300px;
+    margin-top: 300px;
+}
+
+#page-login #container-left-login #bem-vindo-h2-container #bem-vindo{
+    font-size: 40px;
+    font-family: 'sf-pro-hounded-light';
+
+    padding-bottom: 20px;
+}
+
+#bem-vindo-h2-container #logo-atlas {
+    width: 500px;
+    height: 150px;
+}
+
+#frase-destaque-login {
+    font-size: 30px;
+    font-family: 'sf-pro-hounded-thin';
+    justify-content: center;
+    width: 400px;
+
+    margin-top: 40px;
+}
+
+/* Config. Container direito */
+
+#container-right-login {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    position: absolute;
+    margin-left: 1130px;
+    margin-top: 200px;
+}
+
+#card-login {
+    width: 577px;
+    height: 650px;
+    background-color: var(--fundo-card-login);
+    box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.2);
+    border-radius: 20px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#bem-vindo-card-login {
+    padding-bottom: 20px;
+    padding-right: 220px;
+    padding-top: 50px;
+}
+
+#bem-vindo-card-login-2 {
+    font-family: 'sf-pro-hounded-bold';
+    font-size: 28px;
+    color: var(--cor-principal);
+}
+
+#link-register-login {
+    font-family: 'sf-pro-hounded-medium';
+    font-size: 16px;
+
+    padding-top: 10px;
+}
+
+#link-register-login a {
+    color: var(--cor-principal);
+}
+
+input {
+    border-radius: 20px;
+    border: 0px solid;
+    padding: 17px;
+    width: 420px;
+    background-color: white;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+#input-email {
+    padding-bottom: 20px;
+    padding-top: 20px;
+}
+
+#input-confirm-password {
+    padding-top: 20px;
+}
+
+#buttons-container-login {
+    display: flex;
+    flex-direction: column;
+
+    margin-top: 40px;
+}
+
+#btn-login {
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    display: inline-block;
+    font-family: 'sf-pro-hounded-bold';
+    padding: 0.7em 2em;
+    border: 1px solid var(--cor-principal);
+    border-radius: 20px;
+    position: relative;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.1);
+    color: var(--cor-principal);
+    text-decoration: none;
+    transition: 0.3s ease all;
+    z-index: 1;
+    cursor: pointer;
+}
+
+#btn-login::before {
+    transition: 0.5s all ease;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    right: 50%;
+    bottom: 0;
+    opacity: 0;
+    content: '';
+    background-color: var(--cor-principal);
+    z-index: -1;
+}
+
+#btn-login:hover, #btn-login:focus {
+    color: white;
+}
+
+#btn-login:hover:before, #btn-login:focus:before {
+    border-radius: 20px;
+    transition: 0.5s all ease;
+    left: 0;
+    right: 0;
+    opacity: 1;
+}
+
+#btn-login:active {
+    transform: scale(0.9);
+}
+
+#esqueci-senha-login {
+    font-family: 'sf-pro-hounded-light';
+    color: black;
+    
+    margin-top: 20px;
+}
+
+#ou-linha {
+    text-align: center;
+    font-size: 20px;
+    color: black;
+    font-family: 'sf-pro-hounded-light';
+    margin-top: 70px;
+}
+
+#ou-linha p::before, #ou-linha p::after {
+    content: '';
+    position: absolute;
+    width: 30%;
+    border-top: 2px solid var(--cor-principal);
+    margin-top: 1.4%;
+}
+
+#ou-linha p::before {
+    margin-left: -35%;
+}
+
+#ou-linha p::after {
+    margin-left: 30px;
+}
+
+
+#buttons-login-api {
+    margin-top: 30px;
+    display: flex;
+    gap: 20px;
+}
+
+#btn-apple {
+    border-radius: 13px;
+    padding: 30px;
+    cursor: pointer;
+    background-image: url(/src/assets/logo-apple.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 20px;
+    background-color: black;
+    border: none;
+}
+
+#btn-google {
+    border-radius: 14px;
+    padding: 30px;
+    cursor: pointer;
+    background-image: url(/src/assets/logo-google.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 35px;
+    background-color: black;
+    border: none;
+}

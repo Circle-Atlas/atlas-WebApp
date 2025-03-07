@@ -1,0 +1,389 @@
+#detalhe-fundo-correcao-redacao {
+    width: 100vw;
+    height: 300px;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+#nav-bar-correcao-redacao {
+    width: 220px;
+    height: 680px;
+    border-radius: 20px;
+
+    margin-left: 20px;
+    margin-top: -100px;
+
+    position: absolute;
+}
+
+#icone-correcao-redacao {
+    width: 50px;
+    height: 50px;
+
+    margin: 20px 0px 0px 20px;
+    box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.2);
+    background-image: url(/src/assets/perfil.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    border: none;
+
+    display: flex;
+
+    border-radius: 15px;
+
+    position: absolute;
+    z-index: 2;
+
+    cursor: pointer;
+}
+
+#jornada-correcao-redacao {
+    width: 250px;
+    height: 70px;
+
+    margin: 110px 0px 0px 20px;
+    background-color: var(--cor-principal);
+    border: none;
+    box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.2);
+
+    border-radius: 20px;
+
+    position: absolute;
+    z-index: 1;
+
+    font-family: 'sf-pro-hounded-medium';
+    font-size: 23px;
+    letter-spacing: 1px;
+    color: white;
+
+    background-image: url(/src/assets/logoJornada.png);
+    background-repeat: no-repeat;
+    background-position: left;
+    background-position: 40px;
+
+    display: flex;
+    align-items: center;
+    flex-direction: row-reverse;
+
+    padding-right: 70px;
+
+    cursor: pointer;
+}
+
+#temas-correcao-redacao {
+    width: 190px;
+    height: 70px;
+
+    margin: 210px 0px 0px 20px;
+    background-color: var(--fundo-card-login);
+    border: none;
+    box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.2);
+
+    border-radius: 20px;
+
+    position: absolute;
+    z-index: 1;
+
+    font-family: 'sf-pro-hounded-medium';
+    font-size: 23px;
+    letter-spacing: 1px;
+    color: black;
+
+    background-image: url(/src/assets/logoTemas.png);
+    background-repeat: no-repeat;
+    background-position: left;
+    background-position: 20px;
+
+    padding-left: 20px;
+
+    cursor: pointer;
+}
+
+#logo-atlas-correcao-redacao {
+    width: 130px;
+    height: 40px;
+
+    margin-top: 590px;
+    margin-left: 35px;
+
+    position: absolute;
+    z-index: 1;
+}
+
+#card-correcao-redacao {
+    width: 1550px;
+    height: 830px;
+    background-color: var(--fundo-card-login);
+    box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.2);
+    border-radius: 20px;
+
+    position: absolute;
+
+    margin-top: -250px;
+    margin-left: 250px;
+
+    display: flex;
+    align-items: center;
+}
+
+#back-btn-correcao-redacao {
+    width: 10px;
+    padding: 16px;
+    margin-right: 500px;
+    margin-left: -60px;
+    border: none;
+
+    background-image: url(/src/assets/backIcon.png);
+    background-repeat: no-repeat;
+    cursor: pointer;
+
+    margin-top: 30px;
+}
+
+#container-left-correcao-redacao {
+    width: 900px;
+    height: 750px;
+
+    flex-direction: column;
+    position: absolute;
+
+    margin-left: 110px;
+
+}
+
+#tema {
+    width: 735px;
+    height: 100px;
+
+    border-bottom: 1px solid grey;
+
+    margin-top: -70px;
+    padding-bottom: 30px;
+}   
+
+#tema h2 {
+    font-family: 'sf-pro-hounded-bold';
+    color: var(--cor-secundaria);
+
+    padding-bottom: 10px;
+}
+
+#textoTema {
+    width: 720px;
+    padding: 8px;
+
+    resize: none;
+
+    border-radius: 10px;
+    box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.2);
+    border: none;
+
+    font-family: 'sf-pro-hounded-medium';
+    font-size: 16px;
+}
+
+#container-left-correcao-redacao h2 {
+    font-family: 'sf-pro-hounded-bold';
+    color: var(--cor-secundaria);
+
+    margin-top: 30px;
+    padding-bottom: 20px;
+}
+
+#temaRedacao {
+    width: 720px;
+    padding: 8px;
+
+    resize: none;
+
+    border-radius: 10px;
+    box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.2);
+    border: none;
+
+    margin-bottom: 20px;
+
+    font-family: 'sf-pro-hounded-medium';
+    font-size: 16px;
+}
+
+#redacao {
+    width: 720px;
+    padding: 8px;
+
+    resize: none;
+
+    border-radius: 10px;
+    box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.2);
+    border: none;
+
+    font-family: 'sf-pro-hounded-medium';
+    font-size: 16px;
+}
+
+#container-right-correcao-redacao {
+    width: 300px;
+    height: 750px;
+
+    flex-direction: column;
+    position: relative;
+    align-items: center;
+    justify-content: center;
+
+    margin-left: 1150px;
+}
+
+#finalScore {
+    width: 150px;
+    height: 150px;
+
+    margin: 20px 20px 20px 90px;
+
+    background-color: var(--fundo-card-login);
+    border-radius: 50%;
+    border: 4px solid var(--cor-principal);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#analiseGeral {
+    font-family: 'sf-pro-hounded-medium';
+    font-size: 20px;
+    letter-spacing: 1px;
+    color: var(--cor-secundaria);
+
+    padding-bottom: 20px;
+}
+
+#container-right-correcao-redacao #analiseGeralTexto {
+    width: 300px;
+    height: 170px;
+
+    font-family: 'sf-pro-hounded-regular';
+    font-size: 16px;
+    text-align: justify;
+
+    border: none;
+
+    resize: none;
+
+    padding-bottom: 25px;
+}
+
+#container-right-correcao-redacao h2 {
+    font-family: 'sf-pro-hounded-medium';
+    font-size: 20px;
+    letter-spacing: 1px;
+    color: var(--cor-secundaria);
+
+    padding-top: 20px;
+}
+
+#pont-comp {
+    border-top: 1px solid gray;
+
+    margin-top: 35px;
+}
+
+#quadro-competencias {
+    display: flex;
+    flex-wrap: wrap;
+
+    width: 320px;
+    height: 100px;
+
+    padding-top: 20px;
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+
+    gap: 10px;
+
+    border-bottom: 1px solid grey;
+}
+
+#quadro-competencias p {
+    width: 80px;
+    padding: 7px;
+    height: 20px;
+
+    background-color: var(--fundo-card-login);
+    box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.1);
+    border-radius: 20px;
+
+    align-items: center;
+    justify-content: center;
+    
+}
+
+#comp-number {
+    width: 25px;
+    height: 25px;
+    
+    margin-top: -3px;
+
+    border-radius: 50%;
+    background-color: var(--cor-secundaria);
+
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+
+    position: absolute;
+}
+
+#number1 {
+    position: absolute;
+    color: white;
+    z-index: 1;
+
+    border: none;
+    background-color: transparent;
+
+    margin-left: -5px;
+    margin-top: 3px;
+
+    font-size: 16px;
+    font-family: 'sf-pro-hounded-regular';
+}
+
+#result-competencia {
+    padding-left: 40px;
+
+    font-family: 'sf-pro-hounded-regular';
+    font-size: 18px;
+}
+
+#model-correcao {
+    width: 100px;
+    padding: 10px;
+
+
+    border-radius: 10px;
+
+    background-color: var(--fundo-card-login);
+    border: 2px solid var(--cor-principal);
+
+    margin-left: 10px;
+
+    font-size: 20px;
+    color: var(--cor-principal);
+}
+
+::-webkit-scrollbar {
+    width: 9px;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: var(--cor-principal);
+    border-radius: 20px;
+}
+
+
+
+
+
+
+
+

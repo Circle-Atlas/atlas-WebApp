@@ -1,10 +1,11 @@
-#page-login {
+/* config background */
+#page-cadastro {
     display: flex;
 }
 
-#detalhe-fundo {
-    width: 100%;
-    height: 380px;
+#detalhe-fundo-cadastro {
+    width: 100vw;
+    height: 300px;
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -12,17 +13,17 @@
 
 /* Config. container esquerdo */
 
-#container-left {
+#container-left-cadastro {
     display: flex;
     align-items: center;
     justify-content: center;
 
     position: absolute;
     margin-left: 300px;
-    margin-top: 400px;
+    margin-top: 300px;
 }
 
-#page-login #container-left #bem-vindo-h2-container #bem-vindo{
+#page-cadastro #container-left-cadastro #bem-vindo-h2-container #bem-vindo-cadastro{
     font-size: 40px;
     font-family: 'sf-pro-hounded-light';
 
@@ -34,29 +35,28 @@
     height: 150px;
 }
 
-#frase-destaque {
+#frase-destaque-cadastro {
     font-size: 30px;
     font-family: 'sf-pro-hounded-thin';
     justify-content: center;
     width: 400px;
 
-    padding-top: 40px;
+    margin-top: 40px;
 }
 
 /* Config. Container direito */
 
-#container-right {
+#container-right-cadastro {
     display: flex;
     align-items: center;
     justify-content: center;
 
     position: absolute;
-    margin-left: 1000px;
-    margin-top: 300px;
-    padding-bottom: 100px;
+    margin-left: 1130px;
+    margin-top: 200px;
 }
 
-#card-login {
+#card-cadastro {
     width: 577px;
     height: 650px;
     background-color: var(--fundo-card-login);
@@ -66,30 +66,28 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-
-    padding-top: 70px;
-
 }
 
-#bem-vindo-card-login {
+#cadastro {
     padding-bottom: 30px;
-    padding-right: 230px;
+    padding-right: 270px;
+    padding-top: 40px;
 }
 
-#bem-vindo-card-login-2 {
+#cadastro-1 {
     font-family: 'sf-pro-hounded-bold';
     font-size: 28px;
     color: var(--cor-principal);
 }
 
-#link-register {
+#link-register-cadastro {
     font-family: 'sf-pro-hounded-medium';
     font-size: 16px;
 
     padding-top: 10px;
 }
 
-#link-register a {
+#link-register-cadastro a {
     color: var(--cor-principal);
 }
 
@@ -97,48 +95,87 @@ input {
     border-radius: 20px;
     border: 0px solid;
     padding: 17px;
-    width: 447px;
+    width: 420px;
     background-color: white;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
 }
 
 #input-email {
-    padding-bottom: 30px;
+    padding-bottom: 20px;
+    padding-top: 20px;
+}
+
+#input-confirm-password {
+    padding-top: 20px;
 }
 
 #buttons-container {
     display: flex;
     flex-direction: column;
 
-    margin-top: 80px;
+    margin-top: 40px;
 }
 
-#btn-login {
+#btn-cadastro {
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    display: inline-block;
+    font-weight: bold;
+    padding: 0.7em 2em;
+    border: 1px solid var(--cor-principal);
+    border-radius: 20px;
+    position: relative;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.1);
+    color: var(--cor-principal);
+    text-decoration: none;
+    transition: 0.3s ease all;
+    z-index: 1;
+    cursor: pointer;
+}
+
+#btn-cadastro::before {
+    transition: 0.5s all ease;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    right: 50%;
+    bottom: 0;
+    opacity: 0;
+    content: '';
     background-color: var(--cor-principal);
-    border-radius: 30px;
-    border: 0px solid;
-    padding: 10px;
+    z-index: -1;
+}
+
+#btn-cadastro:hover, #btn-login:focus {
     color: white;
-    font-size: 16px;
-    font-family: 'sf-pro-hounded-bold';
 }
 
-#esqueci-senha {
-    font-family: 'sf-pro-hounded-light';
+#btn-cadastro:hover:before, #btn-login:focus:before {
+    border-radius: 20px;
+    transition: 0.5s all ease;
+    left: 0;
+    right: 0;
+    opacity: 1;
+}
+
+#btn-cadastro:active {
+    transform: scale(0.9);
+}
+
+#esqueci-senha-cadastro {
+    font-family: 'sf-pro-hounded-light', sans-serif;
     color: black;
-    
-    padding-top: 20px;
 }
 
-#ou-linha {
+#ou-linha-cadastro {
     text-align: center;
     font-size: 20px;
     color: black;
     font-family: 'sf-pro-hounded-light';
-    margin-top: 70px;
+    margin-top: 35px;
 }
 
-#ou-linha p::before, #ou-linha p::after {
+#ou-linha-cadastro p::before, #ou-linha-cadastro p::after {
     content: '';
     position: absolute;
     width: 30%;
@@ -146,30 +183,29 @@ input {
     margin-top: 1.4%;
 }
 
-#ou-linha p::before {
+#ou-linha-cadastro p::before {
     margin-left: -35%;
 }
 
-#ou-linha p::after {
+#ou-linha-cadastro p::after {
     margin-left: 30px;
 }
-
 
 
 #buttons-login-api {
     margin-top: 30px;
     display: flex;
-    gap: 10px;
+    gap: 20px;
 }
 
 #btn-apple {
     border-radius: 13px;
     padding: 30px;
     cursor: pointer;
-    background-image: url(./assets/logo-apple.png);
+    background-image: url(/src/assets/logo-apple.png);
     background-repeat: no-repeat;
     background-position: center;
-    background-size: 25px;
+    background-size: 20px;
     background-color: black;
     border: none;
 }
@@ -178,10 +214,10 @@ input {
     border-radius: 14px;
     padding: 30px;
     cursor: pointer;
-    background-image: url(./assets/logo-google.png);
+    background-image: url(/src/assets/logo-google.png);
     background-repeat: no-repeat;
     background-position: center;
-    background-size: 25px;
+    background-size: 35px;
     background-color: black;
     border: none;
 }

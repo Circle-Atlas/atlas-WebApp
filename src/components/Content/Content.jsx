@@ -19,18 +19,21 @@ export default function Content() {
         case "LOGIN":
             return(
                 <div id="page-login">
-                    <div id="container-left">
+                    <img id="detalhe-fundo-login" src="./src/assets/detalhe-fundo.png" alt="detalhe-fundo"/>
+                    <div id="container-left-login">
                         <h2 id="bem-vindo-h2-container">
-                            Bem-vindo ao<br></br>
-                            <img id="logo-atlas" src="" alt="Logo Atlas" />
-                            Um app educacional projetado<br></br>
-                            especialmente para auxiliar você na sua redação nos vestibulares.
+                            <p id="bem-vindo">Bem-vindo ao</p>
+                            <img id="logo-atlas" src="./src/assets/logo-atlas.png" alt="Logo Atlas"/>
+                            <p id="frase-destaque-login">Um app educacional projetado
+                            especialmente para auxiliar você na sua redação nos vestibulares.</p>
                         </h2>
                     </div>
-                    <div id="container-right">
+                    <div id="container-right-login">
                         <div id="card-login">
-                            <h3 id="bem-vindo-card-login">Olá, bem-vindo :D</h3>
-                            <p id="link-register">Novo por aqui? <a href="#" onClick={(e) => { e.preventDefault(); setSelectedPage("REGISTER"); }}>Crie sua conta!</a></p>
+                            <div id="bem-vindo-card-login">
+                            <h3 id="bem-vindo-card-login-2">Olá, bem-vindo :D</h3>
+                            <p id="link-register-login">Novo por aqui? <a href="#" onClick={(e) => { e.preventDefault(); setSelectedPage("REGISTER"); }}>Crie sua conta!</a></p>
+                            </div>
                             <div id="inputs-container">
                                 <div id="input-email">
                                     <input type="email" id="email" placeholder="E-mail"/>
@@ -39,14 +42,18 @@ export default function Content() {
                                     <input type="password" id="password" placeholder="Senha"/>
                                 </div>
                             </div>
-                            <div id="buttons-container">
+                            <div id="buttons-container-login">
                                 <button id="btn-login" onClick={() => {SignIn("LOGIN_PASS", document.getElementById("email").value, document.getElementById("password").value)}}>Entrar</button>
-                                <a href="" id="esqueci-senha" onClick={(e) => { e.preventDefault(); setSelectedPage("FORGOT_PASSWORD"); }}>Esqueci minha senha</a>
+                                <a href="" id="esqueci-senha-login" onClick={(e) => { e.preventDefault(); setSelectedPage("FORGOT_PASSWORD"); }}>Esqueci minha senha</a>
                             </div>
-                            <p id="p-ou">OU</p>
+                            <div id="ou-linha">
+                                <p>
+                                  OU
+                                </p>
+                            </div>
                             <div id="buttons-login-api">
-                                <button id="btn-apple" onClick={() => SignIn("LOGIN_APPLE")}>Apple</button>
-                                <button id="btn-google" onClick={() => SignIn("LOGIN_GOOGLE")}>Google</button>
+                                <button id="btn-apple" onClick={() => SignIn("LOGIN_APPLE")}></button>
+                                <button id="btn-google" onClick={() => SignIn("LOGIN_GOOGLE")}></button>
                             </div>
                         </div>
                     </div>
@@ -57,19 +64,22 @@ export default function Content() {
     // Página de Cadastro
         case "REGISTER":
             return(
-                <div id="page-login">
-                    <div id="container-left">
+                <div id="page-cadastro">
+                    <img id="detalhe-fundo-cadastro" src="./src/assets/detalhe-fundo.png" alt="" />
+                    <div id="container-left-cadastro">
                         <h2 id="bem-vindo-h2-container">
-                            Bem-vindo ao<br></br>
-                            <img id="logo-atlas" src="" alt="Logo Atlas" />
-                            Um app educacional projetado<br></br>
-                            especialmente para auxiliar você na sua redação nos vestibulares.
+                            <p id="bem-vindo-cadastro">Bem-vindo ao</p>
+                            <img id="logo-atlas" src="./src/assets/logo-atlas.png" alt="Logo Atlas"/>
+                            <p id="frase-destaque-cadastro">Um app educacional projetado
+                            especialmente para auxiliar você na sua redação nos vestibulares.</p>
                         </h2>
                     </div>
-                    <div id="container-right">
-                        <div id="card-login">
-                            <h3 id="bem-vindo-card-login">Cadastrar</h3>
-                            <p id="link-register">Já possui conta? <a href="#" onClick={(e) => { e.preventDefault(); setSelectedPage("LOGIN"); }}>Acesse!</a></p>
+                    <div id="container-right-cadastro">
+                        <div id="card-cadastro">
+                            <div id="cadastro">
+                            <h3 id="cadastro-1">Cadastrar</h3>
+                            <p id="link-register-cadastro">Já possui conta? <a href="#" onClick={(e) => { e.preventDefault(); setSelectedPage("LOGIN"); }}>Acesse!</a></p>
+                            </div>
                             <div id="inputs-container">
                                 <div id="input-name">
                                     <input type="text" id="register-name" placeholder="Nome"/>
@@ -87,10 +97,14 @@ export default function Content() {
                             <div id="buttons-container">
                                 <button id="btn-login" onClick={async () => { SignUp(document.getElementById("register-name").value, document.getElementById("register-email").value, document.getElementById("register-password").value, document.getElementById("confirm-password").value)}}>Cadastrar</button>
                             </div>
-                            <p id="p-ou">OU</p>
+                            <div id="ou-linha-cadastro">
+                                <p>
+                                    OU
+                                </p>
+                            </div>
                             <div id="buttons-login-api">
-                                <button id="btn-apple" onClick={async() => {SignIn("LOGIN_APPLE")}}>Apple</button>
-                                <button id="btn-google" onClick={async() => {SignIn("LOGIN_GOOGLE")}}>Google</button>
+                                <button id="btn-apple" onClick={async() => {SignIn("LOGIN_APPLE")}}></button>
+                                <button id="btn-google" onClick={async() => {SignIn("LOGIN_GOOGLE")}}></button>
                             </div>
                         </div>
                     </div>
