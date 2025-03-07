@@ -230,14 +230,15 @@
     align-items: center;
     justify-content: center;
 
-    margin-left: 1150px;
+    margin-left: 1350px;
+    margin-top: -200px;
 }
 
 #finalScore {
     width: 150px;
     height: 150px;
 
-    margin: 20px 20px 20px 90px;
+    margin: 20px 20px 20px 70px;
 
     background-color: var(--fundo-card-login);
     border-radius: 50%;
@@ -372,7 +373,7 @@
 }
 
 ::-webkit-scrollbar {
-    width: 9px;
+    width: 8px;
 }
 
 ::-webkit-scrollbar-thumb {

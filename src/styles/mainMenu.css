@@ -158,11 +158,11 @@ header {
 
 /* container da direita */
 
-#right-container {
+#right-container-menu {
     width: 875px;
     height: 640px;
 
-    margin-left: 50px;;
+    margin-left: 50px;
 }
 
 #new-essay {
@@ -170,7 +170,6 @@ header {
     padding: 10px;
     
     border-radius: 30px;
-    margin-left: 650px;
 
     font-size: 17px;
     font-family: 'sf-pro-hounded-medium';
@@ -183,9 +182,14 @@ header {
     background-position: 25px;
 
     padding-left: 35px;
-    
+    margin-left: 655px;
+
     border: none;
     cursor: pointer;
+}
+
+#new-essay-container {
+    height: 0px;
 }
 
 /* redacoes corrigidas */
@@ -264,7 +268,6 @@ header {
     display: grid;
     grid-auto-flow: column;
     scroll-behavior: auto;
-    gap: 1.2rem;
     overflow-y: auto;
     overscroll-behavior-x: contain;
     scroll-snap-type: x mandatory;
@@ -274,6 +277,7 @@ header {
 #corrected-essay-carrosel::-webkit-scrollbar {
     display: none;
 }
+
 
 
 
