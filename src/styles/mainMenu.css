@@ -41,9 +41,8 @@
 }
 
 #jornada-menu {
-    width: 250px;
+    width: 130px;
     height: 70px;
-
 
     margin: 110px 0px 0px 20px;
     background-color: var(--cor-principal);
@@ -69,13 +68,21 @@
     align-items: center;
     flex-direction: row-reverse;
 
-    padding-right: 70px;
+    padding-right: 10px;
 
+    transition: 0.5 ease all;
     cursor: pointer;
 }
 
+
+
+#jornada-menu:hover  {
+    width: 200px;
+    transition: 0.5s all ease;
+}
+
 #temas-menu {
-    width: 190px;
+    width: 75px;
     height: 70px;
 
 
@@ -115,18 +122,28 @@
     z-index: 1;
 }
 
-/* Config background */
+#logo-atlas-menor-menu {
+    width: 40px;
+    height: 45px;
+
+    margin-top: 600px;
+    margin-left: 20px;
+
+    position: absolute;
+    z-index: 1;
+}
+
 header {
-    width: 1550px;
-    height: 830px;
+    width: 1760px;
+    height: 860px;
     background-color: var(--fundo-card-login);
     box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.2);
     border-radius: 20px;
 
     position: absolute;
 
-    margin-top: -250px;
-    margin-left: 250px;
+    margin-top: -275px;
+    margin-left: 130px;
 }
 
 #card-menu {
@@ -159,7 +176,7 @@ header {
 /* container da direita */
 
 #right-container-menu {
-    width: 875px;
+    width: 1200px;
     height: 640px;
 
     margin-left: 50px;
@@ -182,20 +199,23 @@ header {
     background-position: 25px;
 
     padding-left: 35px;
-    margin-left: 655px;
+    margin-left: 915px;
 
     border: none;
     cursor: pointer;
 }
 
 #new-essay-container {
-    height: 0px;
+    position: absolute;
 }
 
 /* redacoes corrigidas */
 
 #corrected-essays-container {
+    width: 1130px;
     margin-top: 80px;
+
+    position: absolute;
 }
 
 #redacao-corrigida {
@@ -203,6 +223,8 @@ header {
     font-size: 14px;
     color: black;
 }
+
+/*
 
 #redacao-corrigida h3::before, #redacao-corrigida h3::after {
     content: '';
@@ -220,9 +242,10 @@ header {
     margin-left: 180px;
 }
 
+*/
+
 #ver-tudo {
     text-align: end;
-    margin-top: -20px;
 }
 
 #ver-tudo a {
@@ -236,7 +259,7 @@ header {
     width: 170px;
     height: 140px;
 
-    margin-top: 20px;
+    margin-top: 30px;
 
     border-radius: 20px;
 
@@ -250,18 +273,23 @@ header {
 }
 
 .corrected-essay p {
+    width: 170px;
+    height: 100px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
     font-family: 'sf-pro-hounded-light';
 
     margin-left: 25px;
 
     color: black;
     background-color: transparent;
-
-    position: relative;
 }
 
 #conteudo-carrosel {
-    width: 850px;
+    width: 1130px;
 }
 
 #corrected-essay-carrosel {
@@ -272,6 +300,9 @@ header {
     overscroll-behavior-x: contain;
     scroll-snap-type: x mandatory;
     scrollbar-width: none;
+    gap: 30px;
+    
+    
 }
 
 #corrected-essay-carrosel::-webkit-scrollbar {

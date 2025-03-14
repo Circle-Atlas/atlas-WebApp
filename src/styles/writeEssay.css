@@ -21,6 +21,7 @@
     width: 50px;
     height: 50px;
 
+    background-color: var(--fundo-card-login);
     margin: 20px 0px 0px 20px;
     box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.2);
     background-image: url(/src/assets/perfil.png);
@@ -39,7 +40,7 @@
 }
 
 #jornada-redacao {
-    width: 250px;
+    width: 130px;
     height: 70px;
 
     margin: 110px 0px 0px 20px;
@@ -66,14 +67,15 @@
     align-items: center;
     flex-direction: row-reverse;
 
-    padding-right: 70px;
+    padding-right: 10px;
 
     cursor: pointer;
 }
 
 #temas-redacao {
-    width: 190px;
+    width: 75px;
     height: 70px;
+
 
     margin: 210px 0px 0px 20px;
     background-color: var(--fundo-card-login);
@@ -111,17 +113,28 @@
     z-index: 1;
 }
 
+#logo-atlas-menor-redacao {
+    width: 40px;
+    height: 45px;
+
+    margin-top: 600px;
+    margin-left: 20px;
+
+    position: absolute;
+    z-index: 1;
+}
+
 #card-redacao {
-    width: 1550px;
-    height: 830px;
+    width: 1760px;
+    height: 860px;
     background-color: var(--fundo-card-login);
     box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.2);
     border-radius: 20px;
 
     position: absolute;
 
-    margin-top: -250px;
-    margin-left: 250px;
+    margin-top: -275px;
+    margin-left: 130px;
 }
 
 #container-left-redacao {
@@ -129,6 +142,7 @@
     height: 100px;
 
     padding: 10px 0px 0px 10px;
+    margin-left: 80px;
 
     display: flex;
     flex-direction: column;
@@ -139,13 +153,15 @@
     width: 370px;
     height: 370px;
 
+    margin-top: 80px;
+
     position: relative;
 }
 
 #back-btn {
     width: 10px;
     padding: 16px;
-    margin-right: 500px;
+    margin-right: 650px;
     margin-left: 40px;
     border: none;
 
@@ -153,8 +169,8 @@
     background-repeat: no-repeat;
     cursor: pointer;
 
-    margin-top: 50px;
-    position: relative;
+    margin-top: 70px;
+    position: absolute;
 }
 
 #inf-redacao {
@@ -269,9 +285,9 @@ label {
 
 #container-right-redacao {
     width: 800px;
-    height: 724px;
+    height: 790px;
 
-    margin-left: 700px;
+    margin-left: 850px;
     margin-top: -50px;
 
     display: flex;
@@ -295,11 +311,11 @@ label {
 #essay-content {
     width: 700px;
     padding: 20px;
-    height: 610px;
+    height: 625px;
 
     resize: none;
 
-    border-radius: 20px;
+    border-radius: 10px;
     box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.2);
     border: none;
 

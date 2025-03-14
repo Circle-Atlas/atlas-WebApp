@@ -4,7 +4,7 @@ import { SaveEssay, GetEssays } from "../../database/essays.js";
 
 export default function Main({ MAIN }) {
   // Igonra isso
-
+  
   const user = JSON.parse(localStorage.getItem("USER"));
 
   const [selectedMain, setSelectedMain] = useState(MAIN);
@@ -31,12 +31,12 @@ export default function Main({ MAIN }) {
                 <div id="nav-bar-menu">
                     <button id="icone-menu"></button>
                     <button id="jornada-menu">
-                        Jornada
+                        
                     </button>
                     <button id="temas-menu">
-                        Temas
+                      
                     </button>
-                    <img id="logo-atlas-menu" src="./src/assets/logo-atlas.png" alt="logo-atlas"/>
+                    <img id="logo-atlas-menor-menu" src="./src/assets/logo-atlas-menor.png" alt="logo-atlas"/>
                 </div>
                 <header>
             <div id="card-menu">
@@ -105,11 +105,11 @@ export default function Main({ MAIN }) {
           />
           <div id="nav-bar-redacao">
             <button id="icone-redacao"></button>
-            <button id="jornada-redacao">Jornada</button>
-            <button id="temas-redacao">Temas</button>
+            <button id="jornada-redacao"></button>
+            <button id="temas-redacao"></button>
             <img
-              id="logo-atlas-redacao"
-              src="./src/assets/logo-atlas.png"
+              id="logo-atlas-menor-redacao"
+              src="./src/assets/logo-atlas-menor.png"
               alt="logo-atlas"
             />
           </div>
@@ -251,11 +251,11 @@ export default function Main({ MAIN }) {
           />
           <div id="nav-bar-correcao-redacao">
             <button id="icone-correcao-redacao"></button>
-            <button id="jornada-correcao-redacao">Jornada</button>
-            <button id="temas-correcao-redacao">Temas</button>
+            <button id="jornada-correcao-redacao"></button>
+            <button id="temas-correcao-redacao"></button>
             <img
-              id="logo-atlas-correcao-redacao"
-              src="./src/assets/logo-atlas.png"
+              id="logo-atlas-menor-correcao-redacao"
+              src="./src/assets/logo-atlas-menor.png"
               alt="logo-atlas"
             />
           </div>
@@ -287,24 +287,30 @@ export default function Main({ MAIN }) {
                 style={{ display: "flex", resize: "none", height: "48vh" }}
               />
             </div>
+            <div id="container-right-correcao-redacao">
+              <button id="btn-share">
+                <img src="./src/assets/button-share.png" alt="botao-compartilhar"/>
+              </button>
+              <img id="confete" src="./src/assets/confete.png" alt="confete"/>
+              <h1 id="finalScore">{lastEssay.Final_Score}</h1>
+              <h2 id="analiseGeral">Análise Geral</h2>
+              <textarea id="analiseGeralTexto" readOnly value={lastEssay.General_Analysis}></textarea>
+              {/*<p>{lastEssay.General_Analysis}</p>*/}
+              <h2 id="point-comp">Pontos por Competências</h2>
+              <div id="quadro-competencias"> 
+              <p><span id="comp-number"><span id="number1">1</span></span><span id="result-competencia">{lastEssay.Competence1[0]}</span></p>
+              <p><span id="comp-number"><span id="number1">2</span></span><span id="result-competencia">{lastEssay.Competence1[0]}</span></p>
+              <p><span id="comp-number"><span id="number1">3</span></span><span id="result-competencia">{lastEssay.Competence1[0]}</span></p>
+              <p><span id="comp-number"><span id="number1">4</span></span><span id="result-competencia">{lastEssay.Competence1[0]}</span></p>
+              <p><span id="comp-number"><span id="number1">5</span></span><span id="result-competencia">{lastEssay.Competence1[0]}</span></p>
+              </div>
+              <div id="title-model-redacao">
+                <h2>Modelo de Correção: <span id="model-correcao">{lastEssay.model}</span></h2>
+              </div>
+              
+            </div>
           </div>
           {/* Aqui para mim está auto explicativo */}
-          <div id="container-right-correcao-redacao">
-            <h1 id="finalScore">{lastEssay.Final_Score}</h1>
-            <h2 id="analiseGeral">Análise Geral</h2>
-            <textarea id="analiseGeralTexto" readOnly value={lastEssay.General_Analysis}></textarea>
-            {/*<p>{lastEssay.General_Analysis}</p>*/}
-            <h2 id="point-comp">Pontos por Competências</h2>
-            <div id="quadro-competencias"> 
-            <p><span id="comp-number"><span id="number1">1</span></span><span id="result-competencia">{lastEssay.Competence1[0]}</span></p>
-            <p><span id="comp-number"><span id="number1">2</span></span><span id="result-competencia">{lastEssay.Competence1[0]}</span></p>
-            <p><span id="comp-number"><span id="number1">3</span></span><span id="result-competencia">{lastEssay.Competence1[0]}</span></p>
-            <p><span id="comp-number"><span id="number1">4</span></span><span id="result-competencia">{lastEssay.Competence1[0]}</span></p>
-            <p><span id="comp-number"><span id="number1">5</span></span><span id="result-competencia">{lastEssay.Competence1[0]}</span></p>
-            
-            </div>
-            <h2>Modelo de Correção: <span id="model-correcao">{lastEssay.model}</span></h2>
-          </div>
         </main>
       );
 
