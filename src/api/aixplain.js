@@ -80,7 +80,7 @@ export async function AnalyzeEssay(THEME, MODEL, TITLE, CONTENT) {
         return acc;
     }, 0);
 
-    const completeResults = { ...finalResults, "General_Analysis": generalAnalysis, "Final_Score": finalScore };
+    const completeResults = { ...finalResults, "General_Analysis": generalAnalysis, "Final_Score": finalScore, "Competences": competences };
 
     console.log("Resultado Final Completo:", completeResults);
     return completeResults;

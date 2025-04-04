@@ -11,6 +11,9 @@ export default function Main({ MAIN }) {
 
   const [essays, setEssays] = useState([]);
 
+  const [showModal, setShowModal] = useState(false);
+  const [modalData, setModalData] = useState({ number: 1, title: 1, points: "", analysis: "" });
+
   useEffect(() => {
     async function fetchEssays() {
       const fetchedEssays = await GetEssays();
@@ -245,77 +248,74 @@ export default function Main({ MAIN }) {
     // Página após correção da redação
     case "ESSAY_CORRECTION":
       const lastEssay = JSON.parse(localStorage.getItem("LastEssay")) || {};
-      console.log(lastEssay);
 
       return (
         <main>
-          <img
-            id="detalhe-fundo-correcao-redacao"
-            src="./src/assets/detalhe-fundo.png"
-            alt="detalhe-fundo"
-          />
+          <img id="detalhe-fundo-correcao-redacao" src="./src/assets/detalhe-fundo.png" alt="detalhe-fundo" />
           <div id="nav-bar-correcao-redacao">
             <button id="icone-correcao-redacao"></button>
             <button id="jornada-correcao-redacao"></button>
             <button id="temas-correcao-redacao"></button>
-            <img
-              id="logo-atlas-menor-correcao-redacao"
-              src="./src/assets/logo-atlas-menor.png"
-              alt="logo-atlas"
-            />
+            <img id="logo-atlas-menor-correcao-redacao" src="./src/assets/logo-atlas-menor.png" alt="logo-atlas" />
           </div>
+
           <div id="card-correcao-redacao">
             <div id="container-left-correcao-redacao">
-              <button
-                id="back-btn-correcao-redacao"
-                onClick={() => setSelectedMain("WRITE_ESSAY")}
-              ></button>
+              <button id="back-btn-correcao-redacao" onClick={() => setSelectedMain("WRITE_ESSAY")}></button>
               <div id="tema">
                 <h2>Tema</h2>
-                <textarea
-                  id="textoTema"
-                  readOnly
-                  value={lastEssay.theme || "Sem tema"}
-                  style={{ resize: "none" }}
-                />
+                <textarea id="textoTema" readOnly value={lastEssay.theme || "Sem tema"} style={{ resize: "none" }} />
               </div>
               <h2>Redação</h2>
-              {/* Aqui adicionei uns estilos no próprio textarea só para ficar mais visível, mas tu pode remover */}
-              <textarea id="temaRedacao"
-                readOnly
-                value={lastEssay.title || "Sem tema"}
-                style={{ resize: "none", height: "fit-content" }}
-              />
-              <textarea id="redacao"
-                readOnly
-                value={lastEssay.content || "Sem tema"}
-                style={{ display: "flex", resize: "none", height: "48vh" }}
-              />
+              <textarea id="temaRedacao" readOnly value={lastEssay.title || "Sem tema"} style={{ resize: "none", height: "fit-content" }} />
+              <textarea id="redacao" readOnly value={lastEssay.content || "Sem tema"} style={{ display: "flex", resize: "none", height: "48vh" }} />
             </div>
+
             <div id="container-right-correcao-redacao">
               <button id="btn-share">
-                <img src="./src/assets/button-share.png" alt="botao-compartilhar"/>
+                <img src="./src/assets/button-share.png" alt="botao-compartilhar" />
               </button>
-              <img id="confete" src="./src/assets/confete.png" alt="confete"/>
+              <img id="confete" src="./src/assets/confete.png" alt="confete" />
               <h1 id="finalScore">{lastEssay.Final_Score}</h1>
               <h2 id="analiseGeral">Análise Geral</h2>
               <textarea id="analiseGeralTexto" readOnly value={lastEssay.General_Analysis}></textarea>
-              {/*<p>{lastEssay.General_Analysis}</p>*/}
+
               <h2 id="point-comp">Pontos por Competências</h2>
-              <div id="quadro-competencias"> 
-              <p><span id="comp-number"><span id="number1">1</span></span><span id="result-competencia">{lastEssay.Competence1[0]}</span></p>
-              <p><span id="comp-number"><span id="number1">2</span></span><span id="result-competencia">{lastEssay.Competence1[0]}</span></p>
-              <p><span id="comp-number"><span id="number1">3</span></span><span id="result-competencia">{lastEssay.Competence1[0]}</span></p>
-              <p><span id="comp-number"><span id="number1">4</span></span><span id="result-competencia">{lastEssay.Competence1[0]}</span></p>
-              <p><span id="comp-number"><span id="number1">5</span></span><span id="result-competencia">{lastEssay.Competence1[0]}</span></p>
+              <div id="quadro-competencias">
+                {[1, 2, 3, 4, 5].map((n) => (
+                  <p
+                    key={n}
+                    onClick={() => {
+                      setModalData({
+                        number: n,
+                        title: lastEssay.Competences[n],
+                        points: lastEssay[`Competence${n}`][0],
+                        analysis: lastEssay[`Competence${n}`][1]
+                      });
+                      setShowModal(true);
+                    }}
+                  >
+                    <span id="comp-number"><span id={`number${n}`}>{n}</span></span>
+                    <span id="result-competencia">{lastEssay[`Competence${n}`][0]}</span>
+                  </p>
+                ))}
               </div>
+
               <div id="title-model-redacao">
                 <h2>Modelo de Correção: <span id="model-correcao">{lastEssay.model}</span></h2>
               </div>
-              
             </div>
           </div>
-          {/* Aqui para mim está auto explicativo */}
+
+          {showModal && (
+            <ModalAnalysis
+              number={modalData.number}
+              title={modalData.title}
+              points={modalData.points}
+              analysis={modalData.analysis}
+              onClose={() => setShowModal(false)}
+            />
+          )}
         </main>
       );
 
@@ -326,4 +326,29 @@ export default function Main({ MAIN }) {
         </main>
       );
   }
+}
+
+function ModalAnalysis({ number, title, points, analysis, onClose }) {
+  //Adicionei estilos inline para o modal, mas você pode fazer no css
+  return (
+    <div id="modal-analysis" style={{
+      position: 'fixed', top: '0', left: '0', right: '0', bottom: '0',
+      backgroundColor: 'rgba(0, 0, 0, 0.6)', display: 'flex',
+      justifyContent: 'center', alignItems: 'center', zIndex: '1000'
+    }}>
+      <div style={{
+        backgroundColor: 'white', padding: '2rem', borderRadius: '1rem',
+        maxWidth: '600px', width: '90%'
+      }}>
+        <button onClick={onClose} style={{
+          float: 'right', background: 'none', border: 'none',
+          fontSize: '1.5rem', cursor: 'pointer'
+        }}>×</button>
+        <h1>Competência {number}</h1>
+        <h2>{title}</h2>
+        <p>{points}</p>
+        <p>{analysis}</p>
+      </div>
+    </div>
+  );
 }
