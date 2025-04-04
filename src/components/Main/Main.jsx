@@ -76,8 +76,13 @@ export default function Main({ MAIN }) {
                     {essays.length > 0 ? (
                       essays.map((essay) => (
                         <div className="corrected-essay" key={essay.id}>
+                          <textarea id="themeFinalScore" readOnly value={essay.theme}></textarea>
+                          {/*
                           <p id="themmeFinalScore">{essay.theme}</p>
+                          */}
+                          <div id="NumberFinalScore-background">
                           <p id="NumberFinalScore">{essay.finalScore}</p>
+                          </div>
                         </div>
                       ))
                     ) : (

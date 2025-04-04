@@ -74,8 +74,6 @@
     cursor: pointer;
 }
 
-
-
 #jornada-menu:hover  {
     width: 200px;
     transition: 0.5s all ease;
@@ -259,6 +257,8 @@ header {
     width: 170px;
     height: 140px;
 
+    padding: 20px;
+
     margin-top: 30px;
 
     border-radius: 20px;
@@ -273,7 +273,7 @@ header {
 }
 
 .corrected-essay p {
-    width: 170px;
+    width: fit-content;
     height: 100px;
 
     display: flex;
@@ -286,6 +286,27 @@ header {
 
     color: black;
     background-color: transparent;
+}
+
+#themeFinalScore {
+    height: 50px;
+    width: 92px;
+}
+
+#NumberFinalScore-background {
+    width: 35px;
+    height: 25px;
+
+    padding: 5px 20px;
+    border-radius: 15px;
+
+    margin-top: 120px;
+
+    position: relative;
+}
+
+#NumberFinalScore {
+    margin-top: -40px;
 }
 
 #conteudo-carrosel {
@@ -301,8 +322,6 @@ header {
     scroll-snap-type: x mandatory;
     scrollbar-width: none;
     gap: 30px;
-    
-    
 }
 
 #corrected-essay-carrosel::-webkit-scrollbar {
