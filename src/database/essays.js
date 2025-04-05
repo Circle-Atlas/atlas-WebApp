@@ -171,5 +171,3 @@ export async function DeleteEssayDraft(id) {
         return { success: false, message: error.message };
     }
 }
-
-

@@ -94,10 +94,15 @@ useEffect(() => {
               </div>
               <div id="right-container-menu">
               <div id="new-essay-container">
-                <button
+              <button
                   id="new-essay"
                   onClick={() => {
                     setSelectedMain("WRITE_ESSAY") 
+                    setTheme("");
+                    setModel("");
+                    setTitle("");
+                    setContent("");
+                    setDraftId(null);
                   }}
                 >
                   Escrever Redação
@@ -214,6 +219,7 @@ useEffect(() => {
                   <input type="text" id="theme" placeholder="Digite aqui..." value={theme} onChange={e => setTheme(e.target.value)} />
                   <button id="hamburguer"></button>
                 </div>
+                <input type="file" id="file-essay" accept=".jpg,.png,.pdf" />
                 <label htmlFor="model">
                   Qual o <span id="temaRoxo">modelo de correção?</span>
                 </label>
@@ -288,10 +294,21 @@ useEffect(() => {
                       const essaySaved = await SaveEssay(
                         theme,
                         model,
+                        analysis.aiModel,
                         title,
                         content,
                         analysis.General_Analysis,
-                        analysis.Final_Score
+                        analysis.Final_Score,
+                        analysis.Competence1[1],
+                        analysis.Competence2[1],
+                        analysis.Competence3[1],
+                        analysis.Competence4[1],
+                        analysis.Competence5[1],
+                        analysis.Competence1[0],
+                        analysis.Competence2[0],
+                        analysis.Competence3[0],
+                        analysis.Competence4[0],
+                        analysis.Competence5[0],
                       );
 
                       if (essaySaved.success) {
@@ -414,23 +431,17 @@ useEffect(() => {
 function ModalAnalysis({ number, title, points, analysis, onClose }) {
   //Adicionei estilos inline para o modal, mas você pode fazer no css
   return (
-    <div id="modal-analysis" style={{
-      position: 'fixed', top: '0', left: '0', right: '0', bottom: '0',
-      backgroundColor: 'rgba(0, 0, 0, 0.6)', display: 'flex',
-      justifyContent: 'center', alignItems: 'center', zIndex: '1000'
-    }}>
-      <div style={{
-        backgroundColor: 'white', padding: '2rem', borderRadius: '1rem',
-        maxWidth: '600px', width: '90%'
-      }}>
-        <button onClick={onClose} style={{
-          float: 'right', background: 'none', border: 'none',
-          fontSize: '1.5rem', cursor: 'pointer'
-        }}>×</button>
-        <h1>Competência {number}</h1>
-        <h2>{title}</h2>
-        <p>{points}</p>
-        <p>{analysis}</p>
+    <div id="modal-analysis">
+      <div id="modal-analysis-card">
+        <button id="btn-modal-analysis" onClick={onClose}>×</button>
+        <div id="modal-analysis-card-content">
+          <h1>Competência {number}</h1>
+          <h2>{title}</h2>
+          <div id="modal-analysis-points-analysis">
+            <p>{points} Pontos</p>
+            <p>{analysis}</p>
+          </div>
+        </div>
       </div>
     </div>
   );
