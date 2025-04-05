@@ -5,7 +5,24 @@ import { app } from "./firebase.js";
 
 const db = getFirestore(app);
 
-export async function SaveEssay(THEME, MODEL, TITLE, CONTENT, GENERAL_ANALYSIS, FINAL_SCORE, draftId = null) {
+export async function SaveEssay(THEME, 
+    MODEL,
+    AI_MODEL, 
+    TITLE, 
+    CONTENT, 
+    GENERAL_ANALYSIS, 
+    FINAL_SCORE, 
+    ANALYSIS_COMPETENCE1, 
+    ANALYSIS_COMPETENCE2, 
+    ANALYSIS_COMPETENCE3, 
+    ANALYSIS_COMPETENCE4, 
+    ANALYSIS_COMPETENCE5, 
+    SCORE_COMPETENCE1,
+    SCORE_COMPETENCE2,
+    SCORE_COMPETENCE3,
+    SCORE_COMPETENCE4,
+    SCORE_COMPETENCE5,
+    DRAFTID = null) {
     try {
         const user = JSON.parse(localStorage.getItem("USER"));
         
@@ -17,21 +34,33 @@ export async function SaveEssay(THEME, MODEL, TITLE, CONTENT, GENERAL_ANALYSIS, 
         
         await addDoc(essaysCollectionRef, {
             theme: THEME,
-            model: MODEL,
+            essayModel: MODEL,
+            aiModel: AI_MODEL,
             title: TITLE,
             content: CONTENT,
             generalAnalysis: GENERAL_ANALYSIS,
             finalScore: FINAL_SCORE,
+            analysisCompetence1: ANALYSIS_COMPETENCE1,
+            analysisCompetence2: ANALYSIS_COMPETENCE2,
+            analysisCompetence3: ANALYSIS_COMPETENCE3,
+            analysisCompetence4: ANALYSIS_COMPETENCE4,
+            analysisCompetence5: ANALYSIS_COMPETENCE5,
+            scoreCompetence1: SCORE_COMPETENCE1,
+            scoreCompetence2: SCORE_COMPETENCE2,
+            scoreCompetence3: SCORE_COMPETENCE3,
+            scoreCompetence4: SCORE_COMPETENCE4,
+            scoreCompetence5: SCORE_COMPETENCE5,
             date: new Date().toISOString(),
+
         });
 
         console.log("Redação salva com sucesso.");
 
         // Se veio de um rascunho, apaga do draft
-        if (draftId) {
-            const draftRef = doc(db, `users/${user.uid}/draft/${draftId}`);
+        if (DRAFTID) {
+            const draftRef = doc(db, `users/${user.uid}/draft/${DRAFTID}`);
             await deleteDoc(draftRef);
-            console.log(`Rascunho ${draftId} removido.`);
+            console.log(`Rascunho ${DRAFTID} removido.`);
         }
 
         return { success: true };
