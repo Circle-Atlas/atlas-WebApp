@@ -1,6 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { AnalyzeEssay } from "../../api/aixplain.js";
-import { SaveEssay, GetEssays } from "../../database/essays.js";
+import { SaveEssay, GetEssays, SaveEssayDraft, DeleteEssayDraft, GetEssayDrafts } from "../../database/essays.js";
 
 export default function Main({ MAIN }) {
   // Igonra isso
@@ -11,14 +11,57 @@ export default function Main({ MAIN }) {
 
   const [essays, setEssays] = useState([]);
 
-  useEffect(() => {
-    async function fetchEssays() {
-      const fetchedEssays = await GetEssays();
-      setEssays(fetchedEssays || []);
-    }
+  const [drafts, setDrafts] = useState([]);
+  const [showModal, setShowModal] = useState(false);
+  const [modalData, setModalData] = useState({ number: 1, title: 1, points: "", analysis: "" });
 
-    fetchEssays();
-  }, []);
+  const [theme, setTheme] = useState("");
+  const [model, setModel] = useState("");
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
+  const [draftId, setDraftId] = useState(null);
+  const timeoutRef = useRef(null);
+
+  useEffect(() => {
+    if (selectedMain === "MAIN_MENU") {
+      async function fetchEssays() {
+          const fetchedEssays = await GetEssays();
+          setEssays(fetchedEssays || []);
+  
+          const fetchedDrafts = await GetEssayDrafts();
+          console.log("Rascunhos recebidos:", fetchedDrafts);
+          setDrafts(fetchedDrafts || []);
+      }
+
+      fetchEssays();
+
+    }
+  }, [selectedMain]);
+
+  useEffect(() => {
+    if (selectedMain === "WRITE_ESSAY" && (title || content || theme)) {
+          if (timeoutRef.current) clearTimeout(timeoutRef.current);
+          timeoutRef.current = setTimeout(() => {
+              SaveEssayDraft({
+                  id: draftId,
+                  theme,
+                  model,
+                  title,
+                  content,
+              }).then(res => {
+                  if (res.success && !draftId) {
+                      setDraftId(res.id); 
+                  }
+              });
+              console.log("Salvando rascunho...");
+          }, 2000);
+      }
+  }, [theme, model, title, content, selectedMain]);
+
+  async function fetchEssays() {
+    const fetchedEssays = await GetEssays();
+    setEssays(fetchedEssays || []);
+  }
 
   // Até aqui
 
@@ -57,7 +100,9 @@ export default function Main({ MAIN }) {
               <div id="new-essay-container">
                 <button
                   id="new-essay"
-                  onClick={() => setSelectedMain("WRITE_ESSAY")}
+                   onClick={() => {
+                     setSelectedMain("WRITE_ESSAY") 
+                   }}
                 >
                   Escrever Redação
                 </button>
@@ -76,10 +121,13 @@ export default function Main({ MAIN }) {
                     {essays.length > 0 ? (
                       essays.map((essay) => (
                         <div className="corrected-essay" key={essay.id}>
-                          <textarea id="themeFinalScore" readOnly value={essay.theme}></textarea>
+
                           {/*
-                          <p id="themmeFinalScore">{essay.theme}</p>
+                            <textarea id="themeFinalScore" readOnly value={essay.theme}></textarea>
                           */}
+                          
+                          <p id="themeFinalScore">{essay.theme}</p>
+                          
                           <div id="NumberFinalScore-background">
                           <p id="NumberFinalScore">{essay.finalScore}</p>
                           </div>
@@ -91,6 +139,30 @@ export default function Main({ MAIN }) {
                       </div>
                     )}
                   </div>
+                  <div id="draft-essay-carrosel">
+                     {drafts.length > 0 ? (
+                       drafts.map((draft) => (
+                         <div className="draft-essay" key={draft.id} onClick={() => {
+                           setSelectedMain("WRITE_ESSAY")
+                           setTimeout(() => {
+                             setTitle(draft.title);
+                             setTheme(draft.theme);
+                             setContent(draft.content);
+                             setModel(draft.model);
+                             setDraftId(draft.id);
+                           }, 100);
+                           
+                           }}>
+                           <textarea id="themeFinalScore" readOnly value={draft.theme || "Sem tema"}></textarea>
+                           {console.log(draft)}
+                         </div>
+                       ))
+                     ) : (
+                       <div className="draft-essay">
+                         <p>Você não tem nenhum rascunho salvo!</p>
+                       </div>
+                     )}
+                   </div>
                 </div>
               </div>
             </div>
@@ -122,7 +194,15 @@ export default function Main({ MAIN }) {
           <div id="container-left-redacao">
           <button
                 id="back-btn"
-                onClick={() => setSelectedMain("MAIN_MENU")}
+                onClick={() => {
+                  setSelectedMain("MAIN_MENU")
+                  fetchEssays()
+                  setTheme("");
+                  setModel("");
+                  setTitle("");
+                  setContent("");
+                  setDraftId(null);
+                }}
               ></button>
               <img
                 id="meninaEscrevendo"
@@ -134,7 +214,7 @@ export default function Main({ MAIN }) {
                   Qual é o tema da sua <span id="temaRoxo">redação</span>?
                 </label>
                 <div id="text-redacao">
-                  <input type="text" id="theme" placeholder="Digite aqui..." />
+                <input type="text" id="theme" placeholder="Digite aqui..." value={theme} onChange={e => setTheme(e.target.value)} />
                   <button id="hamburguer"></button>
                 </div>
                 <label htmlFor="model">
@@ -148,6 +228,7 @@ export default function Main({ MAIN }) {
                         .querySelector(".modelType.selected")
                         ?.classList.remove("selected");
                       event.target.classList.add("selected");
+                      setModel("ENEM");
                     }}
                   >
                     ENEM
@@ -159,6 +240,7 @@ export default function Main({ MAIN }) {
                         .querySelector(".modelType.selected")
                         ?.classList.remove("selected");
                       event.target.classList.add("selected");
+                      setModel("UERJ");
                     }}
                   >
                     UERJ
@@ -216,7 +298,10 @@ export default function Main({ MAIN }) {
                       );
 
                       if (essaySaved.success) {
+                        await DeleteEssayDraft(draftId);
+                        setDraftId(null);
                         setSelectedMain("ESSAY_CORRECTION");
+
                       } else {
                         alert("Erro ao salvar redação.");
                       }
@@ -233,10 +318,14 @@ export default function Main({ MAIN }) {
               <textarea
                 id="essay-title"
                 placeholder="Título da redação"
+                value={title}
+                onChange={e => setTitle(e.target.value)}
               ></textarea>
               <textarea
                 id="essay-content"
                 placeholder="Digite aqui sua redação"
+                value={content}
+                onChange={e => setContent(e.target.value)}
               ></textarea>
             </div>
           </div>
@@ -245,77 +334,74 @@ export default function Main({ MAIN }) {
     // Página após correção da redação
     case "ESSAY_CORRECTION":
       const lastEssay = JSON.parse(localStorage.getItem("LastEssay")) || {};
-      console.log(lastEssay);
 
       return (
         <main>
-          <img
-            id="detalhe-fundo-correcao-redacao"
-            src="./src/assets/detalhe-fundo.png"
-            alt="detalhe-fundo"
-          />
+          <img id="detalhe-fundo-correcao-redacao" src="./src/assets/detalhe-fundo.png" alt="detalhe-fundo" />
           <div id="nav-bar-correcao-redacao">
             <button id="icone-correcao-redacao"></button>
             <button id="jornada-correcao-redacao"></button>
             <button id="temas-correcao-redacao"></button>
-            <img
-              id="logo-atlas-menor-correcao-redacao"
-              src="./src/assets/logo-atlas-menor.png"
-              alt="logo-atlas"
-            />
+            <img id="logo-atlas-menor-correcao-redacao" src="./src/assets/logo-atlas-menor.png" alt="logo-atlas" />
           </div>
+
           <div id="card-correcao-redacao">
             <div id="container-left-correcao-redacao">
-              <button
-                id="back-btn-correcao-redacao"
-                onClick={() => setSelectedMain("WRITE_ESSAY")}
-              ></button>
+            <button id="back-btn-correcao-redacao" onClick={() => setSelectedMain("MAIN_MENU")}></button>
               <div id="tema">
                 <h2>Tema</h2>
-                <textarea
-                  id="textoTema"
-                  readOnly
-                  value={lastEssay.theme || "Sem tema"}
-                  style={{ resize: "none" }}
-                />
+                <textarea id="textoTema" readOnly value={lastEssay.theme || "Sem tema"} style={{ resize: "none" }} />
               </div>
               <h2>Redação</h2>
-              {/* Aqui adicionei uns estilos no próprio textarea só para ficar mais visível, mas tu pode remover */}
-              <textarea id="temaRedacao"
-                readOnly
-                value={lastEssay.title || "Sem tema"}
-                style={{ resize: "none", height: "fit-content" }}
-              />
-              <textarea id="redacao"
-                readOnly
-                value={lastEssay.content || "Sem tema"}
-                style={{ display: "flex", resize: "none", height: "48vh" }}
-              />
+              <textarea id="temaRedacao" readOnly value={lastEssay.title || "Sem tema"} style={{ resize: "none", height: "fit-content" }} />
+              <textarea id="redacao" readOnly value={lastEssay.content || "Sem tema"} style={{ display: "flex", resize: "none", height: "48vh" }} />
             </div>
+
             <div id="container-right-correcao-redacao">
               <button id="btn-share">
-                <img src="./src/assets/button-share.png" alt="botao-compartilhar"/>
+                <img src="./src/assets/button-share.png" alt="botao-compartilhar" />
               </button>
-              <img id="confete" src="./src/assets/confete.png" alt="confete"/>
+              <img id="confete" src="./src/assets/confete.png" alt="confete" />
               <h1 id="finalScore">{lastEssay.Final_Score}</h1>
               <h2 id="analiseGeral">Análise Geral</h2>
               <textarea id="analiseGeralTexto" readOnly value={lastEssay.General_Analysis}></textarea>
-              {/*<p>{lastEssay.General_Analysis}</p>*/}
+
               <h2 id="point-comp">Pontos por Competências</h2>
-              <div id="quadro-competencias"> 
-              <p><span id="comp-number"><span id="number1">1</span></span><span id="result-competencia">{lastEssay.Competence1[0]}</span></p>
-              <p><span id="comp-number"><span id="number1">2</span></span><span id="result-competencia">{lastEssay.Competence1[0]}</span></p>
-              <p><span id="comp-number"><span id="number1">3</span></span><span id="result-competencia">{lastEssay.Competence1[0]}</span></p>
-              <p><span id="comp-number"><span id="number1">4</span></span><span id="result-competencia">{lastEssay.Competence1[0]}</span></p>
-              <p><span id="comp-number"><span id="number1">5</span></span><span id="result-competencia">{lastEssay.Competence1[0]}</span></p>
+              <div id="quadro-competencias">
+                {[1, 2, 3, 4, 5].map((n) => (
+                  <p
+                    key={n}
+                    onClick={() => {
+                      setModalData({
+                        number: n,
+                        title: lastEssay.Competences[n],
+                        points: lastEssay[`Competence${n}`][0],
+                        analysis: lastEssay[`Competence${n}`][1]
+                      });
+                      setShowModal(true);
+                    }}
+                  >
+                    <span id="comp-number"><span id={`number${n}`}>{n}</span></span>
+                    <span id="result-competencia">{lastEssay[`Competence${n}`][0]}</span>
+                  </p>
+                ))}
               </div>
+
               <div id="title-model-redacao">
                 <h2>Modelo de Correção: <span id="model-correcao">{lastEssay.model}</span></h2>
               </div>
-              
             </div>
           </div>
-          {/* Aqui para mim está auto explicativo */}
+
+          {showModal && (
+            <ModalAnalysis
+              number={modalData.number}
+              title={modalData.title}
+              points={modalData.points}
+              analysis={modalData.analysis}
+              onClose={() => setShowModal(false)}
+            />
+          )}
         </main>
       );
 
@@ -326,4 +412,23 @@ export default function Main({ MAIN }) {
         </main>
       );
   }
+}
+
+function ModalAnalysis({ number, title, points, analysis, onClose }) {
+  //Adicionei estilos inline para o modal, mas você pode fazer no css
+  return (
+    <div id="modal-analysis">
+      <div id="modal-analysis-card">
+        <button id="btn-modal-analysis" onClick={onClose}>×</button>
+        <div id="modal-analysis-card-content">
+          <h1>Competência {number}</h1>
+          <h2>{title}</h2>
+          <div id="modal-analysis-points-analysis">
+            <p>{points} Pontos</p>
+            <p>{analysis}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 }

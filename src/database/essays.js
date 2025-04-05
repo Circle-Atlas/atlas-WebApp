@@ -1,9 +1,28 @@
-import { getFirestore, collection, getDocs, query, where, addDoc } from "firebase/firestore";
+import { 
+    getFirestore, collection, getDocs, query, where, addDoc, doc, updateDoc, deleteDoc 
+} from "firebase/firestore";
 import { app } from "./firebase.js";
 
 const db = getFirestore(app);
 
-export async function SaveEssay(THEME, MODEL, TITLE, CONTENT, GENERAL_ANALYSIS, FINAL_SCORE) {
+export async function SaveEssay(THEME, 
+    MODEL,
+    AI_MODEL, 
+    TITLE, 
+    CONTENT, 
+    GENERAL_ANALYSIS, 
+    FINAL_SCORE, 
+    ANALYSIS_COMPETENCE1, 
+    ANALYSIS_COMPETENCE2, 
+    ANALYSIS_COMPETENCE3, 
+    ANALYSIS_COMPETENCE4, 
+    ANALYSIS_COMPETENCE5, 
+    SCORE_COMPETENCE1,
+    SCORE_COMPETENCE2,
+    SCORE_COMPETENCE3,
+    SCORE_COMPETENCE4,
+    SCORE_COMPETENCE5,
+    DRAFTID = null) {
     try {
         const user = JSON.parse(localStorage.getItem("USER"));
         
@@ -11,20 +30,37 @@ export async function SaveEssay(THEME, MODEL, TITLE, CONTENT, GENERAL_ANALYSIS, 
             throw new Error("Usuário não autenticado.");
         }
 
-        const essaysRef = collection(db, "essays");
+        const essaysCollectionRef = collection(db, `users/${user.uid}/essays`);
         
-        await addDoc(essaysRef, {
-            userId: user.uid,
-            theme: THEME,
-            model: MODEL,
+        await addDoc(essaysCollectionRef, {
+            essayModel: MODEL,
+            aiModel: AI_MODEL,
             title: TITLE,
             content: CONTENT,
             generalAnalysis: GENERAL_ANALYSIS,
             finalScore: FINAL_SCORE,
+            analysisCompetence1: ANALYSIS_COMPETENCE1,
+            analysisCompetence2: ANALYSIS_COMPETENCE2,
+            analysisCompetence3: ANALYSIS_COMPETENCE3,
+            analysisCompetence4: ANALYSIS_COMPETENCE4,
+            analysisCompetence5: ANALYSIS_COMPETENCE5,
+            scoreCompetence1: SCORE_COMPETENCE1,
+            scoreCompetence2: SCORE_COMPETENCE2,
+            scoreCompetence3: SCORE_COMPETENCE3,
+            scoreCompetence4: SCORE_COMPETENCE4,
+            scoreCompetence5: SCORE_COMPETENCE5,
             date: new Date().toISOString(),
         });
 
         console.log("Redação salva com sucesso.");
+
+        // Se veio de um rascunho, apaga do draft
+        if (DRAFTID) {
+            const draftRef = doc(db, `users/${user.uid}/draft/${DRAFTID}`);
+            await deleteDoc(draftRef);
+            console.log(`Rascunho ${DRAFTID} removido.`);
+        }
+
         return { success: true };
     } catch (error) {
         console.error("Erro ao salvar redação:", error);
@@ -40,10 +76,8 @@ export async function GetEssays() {
             throw new Error("Usuário não autenticado.");
         }
 
-        const essaysRef = collection(db, "essays");
-        const q = query(essaysRef, where("userId", "==", user.uid));
-
-        const snapshot = await getDocs(q);
+        const essaysRef = collection(db, `users/${user.uid}/essays`);
+         const snapshot = await getDocs(essaysRef);
         
         const essays = snapshot.docs.map(doc => ({
             id: doc.id,
@@ -56,5 +90,82 @@ export async function GetEssays() {
     } catch (error) {
         console.error("Erro ao obter redações:", error);
         return { success: false, error: error.message };
+    }
+}
+
+export async function SaveEssayDraft({ id = null, theme = "", model = "", title = "", content = "", generalAnalysis = "", finalScore = "" }) {
+    try {
+        const user = JSON.parse(localStorage.getItem("USER"));
+        
+        if (!user || !user.uid) {
+            throw new Error("Usuário não autenticado.");
+        }
+
+        const draftCollectionRef = collection(db, `users/${user.uid}/draft`);
+        
+        if (id) {
+            const draftRef = doc(draftCollectionRef, id);
+            await updateDoc(draftRef, {
+                theme,
+                model,
+                title,
+                content,
+                generalAnalysis,
+                finalScore,
+                date: new Date().toISOString(),
+            });
+
+            console.log("Rascunho atualizado:", id);
+            return { success: true, id };
+        } else {
+            const docRef = await addDoc(draftCollectionRef, {
+                theme,
+                model,
+                title,
+                content,
+                generalAnalysis,
+                finalScore,
+                date: new Date().toISOString(),
+            });
+
+            console.log("Novo rascunho criado:", docRef.id);
+            return { success: true, id: docRef.id };
+        }
+    } catch (error) {
+        console.error("Erro ao salvar rascunho:", error);
+        return { success: false, error: error.message };
+    }
+}
+
+    export async function GetEssayDrafts() {
+        try {
+        const user = JSON.parse(localStorage.getItem("USER"));
+        const draftsRef = collection(db, "users", user.uid, "draft");
+        const snapshot = await getDocs(draftsRef);
+    
+        const drafts = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        return drafts;
+        } catch (error) {
+        console.error("Erro ao buscar rascunhos:", error);
+        return [];
+        }
+    }
+
+export async function DeleteEssayDraft(id) {
+    try {
+        const user = JSON.parse(localStorage.getItem("USER"));
+        
+        if (!user || !user.uid) {
+            throw new Error("Usuário não autenticado.");
+        }
+
+        const draftRef = doc(getFirestore(app), `users/${user.uid}/draft/${id}`);
+        await deleteDoc(draftRef);
+        
+        console.log(`Rascunho ${id} deletado com sucesso.`);
+        return { success: true };
+    } catch (error) {
+        console.error("Erro ao deletar rascunho:", error);
+        return { success: false, message: error.message };
     }
 }
