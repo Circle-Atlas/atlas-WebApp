@@ -33,10 +33,7 @@ export async function SaveEssay(THEME,
         const essaysCollectionRef = collection(db, `users/${user.uid}/essays`);
         
         await addDoc(essaysCollectionRef, {
-<<<<<<< HEAD
-=======
             theme: THEME,
->>>>>>> 3d250b747874c2315080f86ba3cee8996971df60
             essayModel: MODEL,
             aiModel: AI_MODEL,
             title: TITLE,
@@ -82,11 +79,7 @@ export async function GetEssays() {
         }
 
         const essaysRef = collection(db, `users/${user.uid}/essays`);
-<<<<<<< HEAD
-         const snapshot = await getDocs(essaysRef);
-=======
         const snapshot = await getDocs(essaysRef);
->>>>>>> 3d250b747874c2315080f86ba3cee8996971df60
         
         const essays = snapshot.docs.map(doc => ({
             id: doc.id,
@@ -178,8 +171,5 @@ export async function DeleteEssayDraft(id) {
         return { success: false, message: error.message };
     }
 }
-<<<<<<< HEAD
-=======
 
 
->>>>>>> 3d250b747874c2315080f86ba3cee8996971df60
