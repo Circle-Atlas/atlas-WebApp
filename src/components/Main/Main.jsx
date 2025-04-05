@@ -94,10 +94,15 @@ useEffect(() => {
               </div>
               <div id="right-container-menu">
               <div id="new-essay-container">
-                <button
+              <button
                   id="new-essay"
                   onClick={() => {
                     setSelectedMain("WRITE_ESSAY") 
+                    setTheme("");
+                    setModel("");
+                    setTitle("");
+                    setContent("");
+                    setDraftId(null);
                   }}
                 >
                   Escrever Redação
@@ -214,6 +219,7 @@ useEffect(() => {
                   <input type="text" id="theme" placeholder="Digite aqui..." value={theme} onChange={e => setTheme(e.target.value)} />
                   <button id="hamburguer"></button>
                 </div>
+                <input type="file" id="file-essay" accept=".jpg,.png,.pdf" />
                 <label htmlFor="model">
                   Qual o <span id="temaRoxo">modelo de correção?</span>
                 </label>
@@ -288,10 +294,21 @@ useEffect(() => {
                       const essaySaved = await SaveEssay(
                         theme,
                         model,
+                        analysis.aiModel,
                         title,
                         content,
                         analysis.General_Analysis,
-                        analysis.Final_Score
+                        analysis.Final_Score,
+                        analysis.Competence1[1],
+                        analysis.Competence2[1],
+                        analysis.Competence3[1],
+                        analysis.Competence4[1],
+                        analysis.Competence5[1],
+                        analysis.Competence1[0],
+                        analysis.Competence2[0],
+                        analysis.Competence3[0],
+                        analysis.Competence4[0],
+                        analysis.Competence5[0],
                       );
 
                       if (essaySaved.success) {
