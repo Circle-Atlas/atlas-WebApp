@@ -85,12 +85,24 @@ useEffect(() => {
             <div id="card-menu">
               <div id="left-container-menu">
                 <div id="greetings-container">
-                  <h1 id="greetings-h1">
-                    Bom dia,{" "}
-                    {JSON.parse(localStorage.getItem("USER"))?.displayName ||
-                      "Usuário"}
-                    !
-                  </h1>
+                <h1 id="greetings-h1">
+                  {(() => {
+                    const hour = new Date().getHours();
+                    let greeting = "Boa noite";
+
+                    if (hour >= 2 && hour < 12) {
+                      greeting = "Bom dia";
+                    } else if (hour >= 12 && hour < 18) {
+                      greeting = "Boa tarde";
+                    }
+
+                    const user =
+                      JSON.parse(localStorage.getItem("USER"))?.displayName || "Usuário";
+
+                    return `${greeting}, ${user}!`;
+                  })()}
+                </h1>
+
                   <p id="greetings-p">
                     “Aprender é crescer, sempre em frente!”
                   </p>
@@ -144,28 +156,32 @@ useEffect(() => {
                       </div>
                     )}
                   </div>
-                  <div id="draft-essay-carrosel">
-                      {drafts.length > 0 ? (
-                        drafts.map((draft) => (
-                          <div className="draft-essay" key={draft.id} onClick={() => {
-                              setSelectedMain("WRITE_ESSAY")
-                              setTitle(draft.title);
-                              setTheme(draft.theme);
-                              setContent(draft.content);
-                              setModel(draft.model);
-                              setDraftId(draft.id);
-                            }}>
-                            <textarea id="themeFinalScore" readOnly value={draft.theme || "Sem tema"}></textarea>
-                            {console.log(draft)}
+                  <div id="draft-essays-container">
+                  <div id="rascunho">
+                    <h3>Rascunhos</h3>
+                 </div>
+                    <div id="draft-essay-carrosel">
+                        {drafts.length > 0 ? (
+                          drafts.map((draft) => (
+                            <div className="draft-essay" key={draft.id} onClick={() => {
+                                setSelectedMain("WRITE_ESSAY")
+                                setTitle(draft.title);
+                                setTheme(draft.theme);
+                                setContent(draft.content);
+                                setModel(draft.model);
+                                setDraftId(draft.id);
+                              }}>
+                              <textarea id="themeFinalScore" readOnly value={draft.theme || "Sem tema"}></textarea>
+                              {console.log(draft)}
+                            </div>
+                          ))
+                        ) : (
+                          <div className="draft-essay">
+                            <p>Você não tem nenhum rascunho salvo!</p>
                           </div>
-                        ))
-                      ) : (
-                        <div className="draft-essay">
-                          <p>Você não tem nenhum rascunho salvo!</p>
-                        </div>
-                      )}
+                        )}
                     </div>
-
+                  </div>
                 </div>
               </div>
             </div>
