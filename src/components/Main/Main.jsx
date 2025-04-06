@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { AnalyzeEssay } from "../../api/aixplain.js";
-import { SaveEssay, GetEssays, SaveEssayDraft, DeleteEssayDraft, GetEssayDrafts } from "../../database/essays.js";
+import { SaveEssay, GetEssays, SaveEssayDraft, DeleteEssayDraft, GetEssayDrafts, DeleteEssay } from "../../database/essays.js";
 
 export default function Main({ MAIN }) {
   // Igonra isso
@@ -24,16 +24,17 @@ export default function Main({ MAIN }) {
   
   const timeoutRef = useRef(null);
 
+  async function fetchEssays() {
+    const fetchedEssays = await GetEssays();
+    setEssays(fetchedEssays || []);
+
+    const fetchedDrafts = await GetEssayDrafts();
+    console.log("Rascunhos recebidos:", fetchedDrafts);
+    setDrafts(fetchedDrafts || []);
+  }
+
   useEffect(() => {
      if (selectedMain === "MAIN_MENU") {
-        async function fetchEssays() {
-            const fetchedEssays = await GetEssays();
-            setEssays(fetchedEssays || []);
-    
-            const fetchedDrafts = await GetEssayDrafts();
-            console.log("Rascunhos recebidos:", fetchedDrafts);
-            setDrafts(fetchedDrafts || []);
-        }
         fetchEssays();
     }
 }, [selectedMain]);
@@ -57,11 +58,6 @@ useEffect(() => {
         }, 2000);
     }
 }, [theme, model, title, content, selectedMain]);
-
-  async function fetchEssays() {
-    const fetchedEssays = await GetEssays();
-    setEssays(fetchedEssays || []);
-  }
 
   // Até aqui
 
@@ -96,12 +92,13 @@ useEffect(() => {
                       greeting = "Boa tarde";
                     }
 
-                    const user =
-                      JSON.parse(localStorage.getItem("USER"))?.displayName || "Usuário";
+                    const fullName = JSON.parse(localStorage.getItem("USER"))?.displayName || "Usuário";
+                    const firstName = fullName.split(" ")[0]; // Pega apenas o primeiro nome
 
-                    return `${greeting}, ${user}!`;
+                    return `${greeting}, ${firstName}!`;
                   })()}
                 </h1>
+
 
                   <p id="greetings-p">
                     “Aprender é crescer, sempre em frente!”
@@ -142,6 +139,13 @@ useEffect(() => {
                           {/*
                           <p id="themeFinalScore">{essay.theme}</p>
                           */}
+                          <div id="essay-options">
+                            <button id="share-essay">Compartilhar</button>
+                            <button id="delete-essay" onClick={async () => {
+                              await DeleteEssay(essay.id);
+                              fetchEssays();
+                            }}>Apagar</button>
+                          </div>
                           
                           <p id="themeFinalScore">{essay.theme}</p>
                           
@@ -163,15 +167,21 @@ useEffect(() => {
                     <div id="draft-essay-carrosel">
                         {drafts.length > 0 ? (
                           drafts.map((draft) => (
-                            <div className="draft-essay" key={draft.id} onClick={() => {
+                            <div className="draft-essay" key={draft.id} style={{ cursor: "pointer" }}>
+                                <div id="essay-options">
+                                  <button id="delete-essay" onClick={async () => {
+                                    await DeleteEssayDraft(draft.id);
+                                    fetchEssays();
+                                  }}>Apagar</button>
+                                </div>
+                              <textarea id="themeFinalScore" readOnly value={draft.theme || "Sem tema"} onClick={() => {
                                 setSelectedMain("WRITE_ESSAY")
                                 setTitle(draft.title);
                                 setTheme(draft.theme);
                                 setContent(draft.content);
                                 setModel(draft.model);
                                 setDraftId(draft.id);
-                              }}>
-                              <textarea id="themeFinalScore" readOnly value={draft.theme || "Sem tema"}></textarea>
+                              }} ></textarea>
                               {console.log(draft)}
                             </div>
                           ))

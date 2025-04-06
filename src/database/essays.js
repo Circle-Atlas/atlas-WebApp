@@ -171,3 +171,22 @@ export async function DeleteEssayDraft(id) {
         return { success: false, message: error.message };
     }
 }
+
+export async function DeleteEssay(id) {
+    try {
+        const user = JSON.parse(localStorage.getItem("USER"));
+        
+        if (!user || !user.uid) {
+            throw new Error("Usuário não autenticado.");
+        }
+
+        const draftRef = doc(getFirestore(app), `users/${user.uid}/essays/${id}`);
+        await deleteDoc(draftRef);
+        
+        console.log(`Redação ${id} deletada com sucesso.`);
+        return { success: true };
+    } catch (error) {
+        console.error("Erro ao deletar redação:", error);
+        return { success: false, message: error.message };
+    }
+}
