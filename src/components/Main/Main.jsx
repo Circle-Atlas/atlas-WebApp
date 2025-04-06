@@ -8,16 +8,20 @@ export default function Main({ MAIN }) {
   const user = JSON.parse(localStorage.getItem("USER"));
 
   const [selectedMain, setSelectedMain] = useState(MAIN);
+
   const [essays, setEssays] = useState([]);
   const [drafts, setDrafts] = useState([]);
+
   const [showModal, setShowModal] = useState(false);
   const [modalData, setModalData] = useState({ number: 1, title: 1, points: "", analysis: "" });
 
   const [theme, setTheme] = useState("");
   const [model, setModel] = useState("");
   const [title, setTitle] = useState("");
+
   const [content, setContent] = useState("");
   const [draftId, setDraftId] = useState(null);
+  
   const timeoutRef = useRef(null);
 
   useEffect(() => {
@@ -144,15 +148,12 @@ useEffect(() => {
                       {drafts.length > 0 ? (
                         drafts.map((draft) => (
                           <div className="draft-essay" key={draft.id} onClick={() => {
-                            setSelectedMain("WRITE_ESSAY")
-                            setTimeout(() => {
+                              setSelectedMain("WRITE_ESSAY")
                               setTitle(draft.title);
                               setTheme(draft.theme);
                               setContent(draft.content);
                               setModel(draft.model);
                               setDraftId(draft.id);
-                            }, 100);
-                            
                             }}>
                             <textarea id="themeFinalScore" readOnly value={draft.theme || "Sem tema"}></textarea>
                             {console.log(draft)}
