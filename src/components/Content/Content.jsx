@@ -78,7 +78,15 @@ export default function Content() {
                         <div id="card-cadastro">
                             <div id="cadastro">
                             <h3 id="cadastro-1">Cadastrar</h3>
-                            <p id="link-register-cadastro">Já possui conta? <a href="#" onClick={(e) => { e.preventDefault(); setSelectedPage("LOGIN"); }}>Acesse!</a></p>
+                            <p id="link-register-cadastro">Já possui conta? <a href="#" onClick={(e) => { 
+                                e.preventDefault(); 
+                                setSelectedPage("LOGIN"); 
+                                document.getElementById("register-name").value = ""
+                                document.getElementById("register-email").value = ""
+                                document.getElementById("register-password").value =""
+                                document.getElementById("confirm-password").value = ""
+
+                            }}>Acesse!</a></p>
                             </div>
                             <div id="inputs-container">
                                 <div id="input-name">
@@ -95,7 +103,16 @@ export default function Content() {
                                 </div>
                             </div>
                             <div id="buttons-container">
-                                <button id="btn-login" onClick={async () => { SignUp(document.getElementById("register-name").value, document.getElementById("register-email").value, document.getElementById("register-password").value, document.getElementById("confirm-password").value)}}>Cadastrar</button>
+                                <button id="btn-login" onClick={async () => { 
+                                    const resultSignUp = await SignUp(document.getElementById("register-name").value, document.getElementById("register-email").value, document.getElementById("register-password").value, document.getElementById("confirm-password").value)
+                                    if (resultSignUp) {
+                                        setSelectedPage("LOGIN")
+                                        document.getElementById("register-name").value = ""
+                                        document.getElementById("register-email").value = ""
+                                        document.getElementById("register-password").value =""
+                                        document.getElementById("confirm-password").value = ""
+                                    }
+                                    }}>Cadastrar</button>
                             </div>
                             <div id="ou-linha-cadastro">
                                 <p>
