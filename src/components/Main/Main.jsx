@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { AnalyzeEssay } from "../../api/aixplain.js";
-import { SaveEssay, GetEssays, SaveEssayDraft, DeleteEssayDraft, GetEssayDrafts } from "../../database/essays.js";
+import { SaveEssay, GetEssays, SaveEssayDraft, DeleteEssayDraft, GetEssayDrafts, DeleteEssay } from "../../database/essays.js";
 
 export default function Main({ MAIN }) {
   // Igonra isso
@@ -20,16 +20,28 @@ export default function Main({ MAIN }) {
   const [draftId, setDraftId] = useState(null);
   const timeoutRef = useRef(null);
 
+  //===========================================//
+  //Estou criando aqui aquele mini-menu de apagar e compartilhar as redações
+
+    //===========================================//
+
+  async function fetchEssays() {
+    const fetchedEssays = await GetEssays();
+    setEssays(fetchedEssays || []);
+
+    const fetchedDrafts = await GetEssayDrafts();
+    console.log("Rascunhos recebidos:", fetchedDrafts);
+    setDrafts(fetchedDrafts || []);
+  }
+
+  //===========================================//
+
+  //Estou criando aqui aquele mini-menu de apagar e compartilhar as redações
+
+  //===========================================//
+
   useEffect(() => {
      if (selectedMain === "MAIN_MENU") {
-        async function fetchEssays() {
-            const fetchedEssays = await GetEssays();
-            setEssays(fetchedEssays || []);
-    
-            const fetchedDrafts = await GetEssayDrafts();
-            console.log("Rascunhos recebidos:", fetchedDrafts);
-            setDrafts(fetchedDrafts || []);
-        }
         fetchEssays();
     }
 }, [selectedMain]);
@@ -54,11 +66,6 @@ useEffect(() => {
     }
 }, [theme, model, title, content, selectedMain]);
 
-  async function fetchEssays() {
-    const fetchedEssays = await GetEssays();
-    setEssays(fetchedEssays || []);
-  }
-
   // Até aqui
 
   switch (selectedMain) {
@@ -79,14 +86,26 @@ useEffect(() => {
                 </div>
                 <header>
             <div id="card-menu">
-              <div id="left-container-menu">
-                <div id="greetings-container">
-                  <h1 id="greetings-h1">
-                    Bom dia,{" "}
-                    {JSON.parse(localStorage.getItem("USER"))?.displayName ||
-                      "Usuário"}
-                    !
-                  </h1>
+               <div id="left-container-menu">
+                 <div id="greetings-container">
+                 <h1 id="greetings-h1">
+                   {(() => {
+                     const hour = new Date().getHours();
+                     let greeting = "Boa noite";
+ 
+                     if (hour >= 2 && hour < 12) {
+                       greeting = "Bom dia";
+                     } else if (hour >= 12 && hour < 18) {
+                       greeting = "Boa tarde";
+                     }
+ 
+                     const fullName = JSON.parse(localStorage.getItem("USER"))?.displayName || "Usuário";
+                     const firstName = fullName.split(" ")[0]; // Pega apenas o primeiro nome
+ 
+                     return `${greeting}, ${firstName}!`;
+                   })()}
+                 </h1>
+
                   <p id="greetings-p">
                     “Aprender é crescer, sempre em frente!”
                   </p>
@@ -113,62 +132,94 @@ useEffect(() => {
                  e com o tema e a pontuação final */}
                  <div id="redacao-corrigida">
                     <h3>Redações Corrigidas</h3>
-                 </div>
-                 <div id="ver-tudo">
                     <a href="#">Ver tudo</a>
                  </div>
-                <div id="conteudo-carrosel">
+                <div id="conteudo-corrected-essay-carrosel">
                   <div id="corrected-essay-carrosel">
                     {essays.length > 0 ? (
                       essays.map((essay) => (
                         <div className="corrected-essay" key={essay.id}>
+                          <div id="corrected-header">
+                            <span id="corrected-time">há 6 min</span>
+                            <button id="corrected-menu">
+                              <img src="./src/assets/tres-bolinhas.png" alt="tres-bolinhas" />
+                            </button>
+                          </div>
 
-                          {/*
+                            <div id="essay-options">
+                              <button id="share-essay">Compartilhar</button>
+                              <button id="delete-essay" onClick={async () => {
+                                await DeleteEssay(essay.id);
+                                fetchEssays();
+                              }}>Apagar</button>
+                            </div>
+
                           <p id="themeFinalScore">{essay.theme}</p>
-                          */}
-                          
-                          <p id="themeFinalScore">{essay.theme}</p>
-                          
-                          <div id="NumberFinalScore-background">
-                          <p id="NumberFinalScore">{essay.finalScore}</p>
+                          <div id="corrected-footer">
+                            <p id="NumberFinalScore">{essay.finalScore}</p>
                           </div>
                         </div>
                       ))
                     ) : (
                       <div className="corrected-essay">
-                        <p>Você não corrigiu nenhuma redação!</p>
+                        <p id="corrected-essay-mensage">Você não corrigiu nenhuma redação!</p>
                       </div>
                     )}
                   </div>
-                  <div id="draft-essay-carrosel">
-                      {drafts.length > 0 ? (
-                        drafts.map((draft) => (
-                          <div className="draft-essay" key={draft.id} onClick={() => {
-                            setSelectedMain("WRITE_ESSAY")
-                            setTimeout(() => {
-                              setTitle(draft.title);
-                              setTheme(draft.theme);
-                              setContent(draft.content);
-                              setModel(draft.model);
-                              setDraftId(draft.id);
-                            }, 100);
-                            
-                            }}>
-                            <textarea id="themeFinalScore" readOnly value={draft.theme || "Sem tema"}></textarea>
-                            {console.log(draft)}
-                          </div>
-                        ))
-                      ) : (
-                        <div className="draft-essay">
-                          <p>Você não tem nenhum rascunho salvo!</p>
-                        </div>
-                      )}
-                    </div>
+                  <div id="draft-essays-container">
+                   <div id="rascunho">
+                     <h3>Rascunhos</h3>
+                     <a href="#">Ver tudo</a>
+                  </div>
+                  <div id="ver-tudo">
+                        
+                  </div>
+                  <div id="conteudo-draft-essay-carrosel">
+                    <div id="draft-essay-carrosel">
+                            {drafts.length > 0 ? (
+                              drafts.map((draft) => (
+                                <div className="draft-essay" key={draft.id} style={{ cursor: "pointer" }}>
+                                  <div id="corrected-header">
+                                    <span id="corrected-time">há 6 min</span>
+                                    <button id="corrected-menu">
+                                      <img src="./src/assets/tres-bolinhas.png" alt="tres-bolinhas" />
+                                    </button>
+                                  </div>
+                                <div id="essay-options">
+                                  <button id="delete-essay" onClick={async () => {
+                                    await DeleteEssayDraft(draft.id);
+                                    fetchEssays();
+                                  }}>Apagar</button>
+                                </div>
 
-                </div>
-              </div>
+                                <textarea wrap="hard" rows={4}  id="themeFinalScore-draft"  readOnly value={draft.theme || "Sem tema"} onClick={() => {
+                                    setSelectedMain("WRITE_ESSAY")
+                                    setTitle(draft.title);
+                                    setTheme(draft.theme);
+                                    setContent(draft.content);
+                                    setModel(draft.model);
+                                    setDraftId(draft.id);
+                                  }}> </textarea>
+                                  {console.log(draft)}
+
+                              {/*
+                              <p id="themeFinalScore">{essay.theme}</p>
+                              */}
+
+                                </div>
+                              ))
+                            ) : (
+                              <div className="draft-essay">
+                                <p>Você não tem nenhum rascunho salvo!</p>
+                              </div>
+                            )}
+                  </div>
+                   </div>
+                 </div>
+               </div>
+             </div>
             </div>
-            </div>
+           </div>
           </header>
           <section></section>
         </main>
@@ -438,11 +489,11 @@ function ModalAnalysis({ number, title, points, analysis, onClose }) {
           <h1>Competência {number}</h1>
           <h2>{title}</h2>
           <div id="modal-analysis-points-analysis">
-            <p>{points} Pontos</p>
+            <p id="modal-points">{points} Pontos</p>
             <p>{analysis}</p>
           </div>
         </div>
       </div>
     </div>
   );
-}
+ }
