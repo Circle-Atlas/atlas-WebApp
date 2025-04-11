@@ -103,7 +103,16 @@ export default function Content() {
                                 </div>
                             </div>
                             <div id="buttons-container">
-                                <button id="btn-login" onClick={async () => { SignUp(document.getElementById("register-name").value, document.getElementById("register-email").value, document.getElementById("register-password").value, document.getElementById("confirm-password").value)}}>Cadastrar</button>
+                                <button id="btn-login" onClick={async () => { 
+                                    const resultSignUp = await SignUp(document.getElementById("register-name").value, document.getElementById("register-email").value, document.getElementById("register-password").value, document.getElementById("confirm-password").value)
+                                    if (resultSignUp) {
+                                        setSelectedPage("LOGIN")
+                                        document.getElementById("register-name").value = ""
+                                        document.getElementById("register-email").value = ""
+                                        document.getElementById("register-password").value =""
+                                        document.getElementById("confirm-password").value = ""
+                                    }
+                                    }}>Cadastrar</button>
                             </div>
                             <div id="ou-linha-cadastro">
                                 <p>
