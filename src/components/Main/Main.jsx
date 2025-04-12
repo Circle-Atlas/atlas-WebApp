@@ -263,6 +263,8 @@ useEffect(() => {
                   setTitle("");
                   setContent("");
                   setDraftId(null);
+                  setImgSrc("");
+                  setFileName("");
                 }}
               ></button>
               <img
