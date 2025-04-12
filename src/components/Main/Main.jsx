@@ -24,6 +24,13 @@ export default function Main({ MAIN }) {
   const [content, setContent] = useState("");
   const [draftId, setDraftId] = useState(null);
   
+  const [filename, setFileName] = useState("")
+  const [imgsrc, setImgSrc] = useState("")
+  const [showOverlay, setShowOverlay] = useState(false);
+
+  const [imageBase64, setImageBase64] = useState(null);
+
+  
   const timeoutRef = useRef(null);
 
   async function fetchEssays() {
@@ -34,7 +41,6 @@ export default function Main({ MAIN }) {
     console.log("Rascunhos recebidos:", fetchedDrafts);
     setDrafts(fetchedDrafts || []);
   }
-
   async function handleFileChange(event) {
     const file = event.target.files[0];
     if (!file) return;
@@ -43,10 +49,13 @@ export default function Main({ MAIN }) {
   
     reader.onloadend = async () => {
       const base64 = reader.result.split(',')[1]; 
+      setImageBase64(base64);
   
       try {
         const transcription = await OCRGoogleAPI(base64);
         setContent(transcription);
+        setFileName(file.name);
+        setImgSrc(reader.result)
       } catch (error) {
         console.error("Erro ao processar a imagem:", error);
       }
@@ -359,7 +368,10 @@ useEffect(() => {
                         analysis.Competence3[0],
                         analysis.Competence4[0],
                         analysis.Competence5[0],
+                        draftId,
+                        imageBase64
                       );
+                      
 
                       if (essaySaved.success) {
                         await DeleteEssayDraft(draftId);
@@ -391,6 +403,57 @@ useEffect(() => {
                 value={content}
                 onChange={e => setContent(e.target.value)}
               ></textarea>
+             <p
+                id="file-name"
+                style={{ cursor: "pointer", color: "blue", textDecoration: "underline" }}
+                onClick={() => setShowOverlay(true)}
+              >
+                {filename}
+              </p>
+              {showOverlay && (
+                <div
+                  id="overlay-img"
+                  style={{
+                    position: "fixed",
+                    top: 0,
+                    left: 0,
+                    width: "100vw",
+                    height: "100vh",
+                    backgroundColor: "rgba(0,0,0,0.8)",
+                    zIndex: 1000,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  <button
+                    id="close-img-btn"
+                    onClick={() => setShowOverlay(false)} // isso aqui depende do seu state handler
+                    style={{
+                      position: "absolute",
+                      top: "20px",
+                      right: "20px",
+                      background: "transparent",
+                      border: "none",
+                      color: "#fff",
+                      fontSize: "2rem",
+                      cursor: "pointer",
+                    }}
+                  >
+                    ×
+                  </button>
+                  <img
+                    src={imgsrc}
+                    alt="Preview da Imagem"
+                    style={{
+                      maxWidth: "80vw",
+                      maxHeight: "90vh",
+                      objectFit: "contain",
+                      borderRadius: "8px",
+                    }}
+                  />
+                </div>
+              )}
             </div>
           </div>
         </main>
