@@ -4,6 +4,7 @@ import { SaveEssay, GetEssays, SaveEssayDraft, DeleteEssayDraft, GetEssayDrafts,
 import { OCRGoogleAPI } from "../../api/ocr.js";
 
 export default function Main({ MAIN }) {
+  
   // Igonra isso
   
   const user = JSON.parse(localStorage.getItem("USER"));
@@ -38,6 +39,28 @@ export default function Main({ MAIN }) {
     const fetchedDrafts = await GetEssayDrafts();
     console.log("Rascunhos recebidos:", fetchedDrafts);
     setDrafts(fetchedDrafts || []);
+  }
+  async function handleFileChange(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+  
+    const reader = new FileReader();
+  
+    reader.onloadend = async () => {
+      const base64 = reader.result.split(',')[1]; 
+      setImageBase64(base64);
+  
+      try {
+        const transcription = await OCRGoogleAPI(base64);
+        setContent(transcription);
+        setFileName(file.name);
+        setImgSrc(reader.result)
+      } catch (error) {
+        console.error("Erro ao processar a imagem:", error);
+      }
+    };
+  
+    reader.readAsDataURL(file);
   }
 
   async function handleFileChange(event) {
@@ -155,6 +178,8 @@ useEffect(() => {
                  e com o tema e a pontuação final */}
                  <div id="redacao-corrigida">
                     <h3>Redações Corrigidas</h3>
+                 </div>
+                 <div id="ver-tudo">
                     <a href="#">Ver tudo</a>
                  </div>
                 <div id="conteudo-carrosel">
@@ -184,14 +209,9 @@ useEffect(() => {
                     )}
                   </div>
                   <div id="draft-essays-container">
-                   <div id="rascunho">
-                     <h3>Rascunhos</h3>
-                     <a href="#">Ver tudo</a>
-                  </div>
-                  <div id="ver-tudo">
-                        
-                  </div>
-                  <div id="conteudo-draft-essay-carrosel">
+                  <div id="rascunho">
+                    <h3>Rascunhos</h3>
+                 </div>
                     <div id="draft-essay-carrosel">
                     {drafts.length > 0 ? (
                            drafts.map((draft) => (
@@ -377,6 +397,7 @@ useEffect(() => {
                         draftId,
                         imageBase64
                       );
+                      
 
                       if (essaySaved.success) {
                         await DeleteEssayDraft(draftId);
@@ -556,11 +577,11 @@ function ModalAnalysis({ number, title, points, analysis, onClose }) {
           <h1>Competência {number}</h1>
           <h2>{title}</h2>
           <div id="modal-analysis-points-analysis">
-            <p id="modal-points">{points} Pontos</p>
+            <p>{points} Pontos</p>
             <p>{analysis}</p>
           </div>
         </div>
       </div>
     </div>
   );
- }
+}

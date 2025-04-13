@@ -3,7 +3,7 @@ import {
 } from "firebase/firestore";
 import { app } from "./firebase.js";
 import { getStorage, ref, uploadString, getDownloadURL } from "firebase/storage";
- 
+
 
 const db = getFirestore(app);
 
@@ -30,9 +30,8 @@ export async function SaveEssay(
 ) {
     try {
         const user = JSON.parse(localStorage.getItem("USER"));
-        
         if (!user || !user.uid) throw new Error("Usuário não autenticado.");
- 
+
         const db = getFirestore(app);
         const storage = getStorage(app);
 
@@ -65,7 +64,6 @@ export async function SaveEssay(
             scoreCompetence5: SCORE_COMPETENCE5,
             imageUrl: imageUrl,
             date: new Date().toISOString(),
-
         });
 
         if (DRAFTID) {
