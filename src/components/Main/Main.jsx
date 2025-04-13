@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { AnalyzeEssay } from "../../api/aixplain.js";
 import { SaveEssay, GetEssays, SaveEssayDraft, DeleteEssayDraft, GetEssayDrafts, DeleteEssay } from "../../database/essays.js";
+import { OCRGoogleAPI } from "../../api/ocr.js";
 
 export default function Main({ MAIN }) {
   // Igonra isso
@@ -8,22 +9,27 @@ export default function Main({ MAIN }) {
   const user = JSON.parse(localStorage.getItem("USER"));
 
   const [selectedMain, setSelectedMain] = useState(MAIN);
+
   const [essays, setEssays] = useState([]);
   const [drafts, setDrafts] = useState([]);
+
   const [showModal, setShowModal] = useState(false);
   const [modalData, setModalData] = useState({ number: 1, title: 1, points: "", analysis: "" });
 
   const [theme, setTheme] = useState("");
   const [model, setModel] = useState("");
   const [title, setTitle] = useState("");
+
   const [content, setContent] = useState("");
   const [draftId, setDraftId] = useState(null);
+
+  const [filename, setFileName] = useState("")
+  const [imgsrc, setImgSrc] = useState("")
+  const [showOverlay, setShowOverlay] = useState(false);
+ 
+  const [imageBase64, setImageBase64] = useState(null);
+
   const timeoutRef = useRef(null);
-
-  //===========================================//
-  //Estou criando aqui aquele mini-menu de apagar e compartilhar as redações
-
-    //===========================================//
 
   async function fetchEssays() {
     const fetchedEssays = await GetEssays();
@@ -34,11 +40,29 @@ export default function Main({ MAIN }) {
     setDrafts(fetchedDrafts || []);
   }
 
-  //===========================================//
+  async function handleFileChange(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+  
+    const reader = new FileReader();
+  
+    reader.onloadend = async () => {
+      const base64 = reader.result.split(',')[1];
+      setImageBase64(base64); 
+  
+      try {
+        const transcription = await OCRGoogleAPI(base64);
+        setContent(transcription);
+        setFileName(file.name);
+        setImgSrc(reader.result)
+      } catch (error) {
+        console.error("Erro ao processar a imagem:", error);
+      }
+    };
+  
+    reader.readAsDataURL(file);
+  }
 
-  //Estou criando aqui aquele mini-menu de apagar e compartilhar as redações
-
-  //===========================================//
 
   useEffect(() => {
      if (selectedMain === "MAIN_MENU") {
@@ -86,7 +110,7 @@ useEffect(() => {
                 </div>
                 <header>
             <div id="card-menu">
-               <div id="left-container-menu">
+            <div id="left-container-menu">
                  <div id="greetings-container">
                  <h1 id="greetings-h1">
                    {(() => {
@@ -100,12 +124,11 @@ useEffect(() => {
                      }
  
                      const fullName = JSON.parse(localStorage.getItem("USER"))?.displayName || "Usuário";
-                     const firstName = fullName.split(" ")[0]; // Pega apenas o primeiro nome
+                     const firstName = fullName.split(" ")[0];
  
                      return `${greeting}, ${firstName}!`;
                    })()}
                  </h1>
-
                   <p id="greetings-p">
                     “Aprender é crescer, sempre em frente!”
                   </p>
@@ -134,35 +157,29 @@ useEffect(() => {
                     <h3>Redações Corrigidas</h3>
                     <a href="#">Ver tudo</a>
                  </div>
-                <div id="conteudo-corrected-essay-carrosel">
+                <div id="conteudo-carrosel">
                   <div id="corrected-essay-carrosel">
                     {essays.length > 0 ? (
                       essays.map((essay) => (
                         <div className="corrected-essay" key={essay.id}>
-                          <div id="corrected-header">
-                            <span id="corrected-time">há 6 min</span>
-                            <button id="corrected-menu">
-                              <img src="./src/assets/tres-bolinhas.png" alt="tres-bolinhas" />
-                            </button>
-                          </div>
-
-                            <div id="essay-options">
-                              <button id="share-essay">Compartilhar</button>
-                              <button id="delete-essay" onClick={async () => {
-                                await DeleteEssay(essay.id);
-                                fetchEssays();
-                              }}>Apagar</button>
-                            </div>
-
-                          <p id="themeFinalScore">{essay.theme}</p>
-                          <div id="corrected-footer">
-                            <p id="NumberFinalScore">{essay.finalScore}</p>
-                          </div>
+                          <div id="essay-options">
+                             <button id="share-essay">Compartilhar</button>
+                             <button id="delete-essay" onClick={async () => {
+                               await DeleteEssay(essay.id);
+                               fetchEssays();
+                             }}>Apagar</button>
+                           </div>
+                           
+                           <p id="themeFinalScore">{essay.theme}</p>
+                           
+                           <div id="NumberFinalScore-background">
+                           <p id="NumberFinalScore">{essay.finalScore}</p>
+                           </div>
                         </div>
                       ))
                     ) : (
                       <div className="corrected-essay">
-                        <p id="corrected-essay-mensage">Você não corrigiu nenhuma redação!</p>
+                        <p>Você não corrigiu nenhuma redação!</p>
                       </div>
                     )}
                   </div>
@@ -176,15 +193,9 @@ useEffect(() => {
                   </div>
                   <div id="conteudo-draft-essay-carrosel">
                     <div id="draft-essay-carrosel">
-                            {drafts.length > 0 ? (
-                              drafts.map((draft) => (
-                                <div className="draft-essay" key={draft.id} style={{ cursor: "pointer" }}>
-                                  <div id="corrected-header">
-                                    <span id="corrected-time">há 6 min</span>
-                                    <button id="corrected-menu">
-                                      <img src="./src/assets/tres-bolinhas.png" alt="tres-bolinhas" />
-                                    </button>
-                                  </div>
+                    {drafts.length > 0 ? (
+                           drafts.map((draft) => (
+                             <div className="draft-essay" key={draft.id} style={{ cursor: "pointer" }}>
                                 <div id="essay-options">
                                   <button id="delete-essay" onClick={async () => {
                                     await DeleteEssayDraft(draft.id);
@@ -192,33 +203,27 @@ useEffect(() => {
                                   }}>Apagar</button>
                                 </div>
 
-                                <textarea wrap="hard" rows={4}  id="themeFinalScore-draft"  readOnly value={draft.theme || "Sem tema"} onClick={() => {
-                                    setSelectedMain("WRITE_ESSAY")
-                                    setTitle(draft.title);
-                                    setTheme(draft.theme);
-                                    setContent(draft.content);
-                                    setModel(draft.model);
-                                    setDraftId(draft.id);
-                                  }}> </textarea>
-                                  {console.log(draft)}
-
-                              {/*
-                              <p id="themeFinalScore">{essay.theme}</p>
-                              */}
-
-                                </div>
-                              ))
-                            ) : (
-                              <div className="draft-essay">
-                                <p>Você não tem nenhum rascunho salvo!</p>
-                              </div>
-                            )}
-                  </div>
+                                <p id="themeFinalScore" readOnly onClick={(event) => {
+                                 setSelectedMain("WRITE_ESSAY")
+                                 setTitle(draft.title);
+                                 setTheme(draft.theme);
+                                 setContent(draft.content);
+                                 setModel(draft.model);
+                                 setDraftId(draft.id);
+                               }} >{draft.theme || "Sem tema"}</p>
+                               {console.log(draft)}
+                             </div>
+                           ))
+                         ) : (
+                           <div className="draft-essay">
+                             <p>Você não tem nenhum rascunho salvo!</p>
+                           </div>
+                         )}
+                     </div>
                    </div>
                  </div>
                </div>
              </div>
-            </div>
            </div>
           </header>
           <section></section>
@@ -255,6 +260,8 @@ useEffect(() => {
                   setTitle("");
                   setContent("");
                   setDraftId(null);
+                  setImgSrc("");
+                  setFileName("");
                 }}
               ></button>
               <img
@@ -270,7 +277,14 @@ useEffect(() => {
                   <input type="text" id="theme" placeholder="Digite aqui..." value={theme} onChange={e => setTheme(e.target.value)} />
                   <button id="hamburguer"></button>
                 </div>
-                <input type="file" id="file-essay" accept=".jpg,.png,.pdf" />
+                <label for="file-essay" class="custom-file-essay">
+                  <img src="./src/assets/camera.png" alt="camera" id="camera-icon" />
+                  Carregar foto
+                </label>
+                <input id="file-essay" type="file" accept=".jpg,.png,.webp" onChange={handleFileChange}/>
+                {/*
+                <input type="file" id="file-essay" accept=".jpg,.png,.pdf"/>
+                */}
                 <label htmlFor="model">
                   Qual o <span id="temaRoxo">modelo de correção?</span>
                 </label>
@@ -360,6 +374,8 @@ useEffect(() => {
                         analysis.Competence3[0],
                         analysis.Competence4[0],
                         analysis.Competence5[0],
+                        draftId,
+                        imageBase64
                       );
 
                       if (essaySaved.success) {
@@ -392,6 +408,57 @@ useEffect(() => {
                 value={content}
                 onChange={e => setContent(e.target.value)}
               ></textarea>
+               <p
+                 id="file-name"
+                 style={{ cursor: "pointer", color: "blue", textDecoration: "underline" }}
+                 onClick={() => setShowOverlay(true)}
+               >
+                 {filename}
+               </p>
+               {showOverlay && (
+                 <div
+                   id="overlay-img"
+                   style={{
+                     position: "fixed",
+                     top: 0,
+                     left: 0,
+                     width: "100vw",
+                     height: "100vh",
+                     backgroundColor: "rgba(0,0,0,0.8)",
+                     zIndex: 1000,
+                     display: "flex",
+                     alignItems: "center",
+                     justifyContent: "center",
+                   }}
+                 >
+                   <button
+                     id="close-img-btn"
+                     onClick={() => setShowOverlay(false)} // isso aqui depende do seu state handler
+                     style={{
+                       position: "absolute",
+                       top: "20px",
+                       right: "20px",
+                       background: "transparent",
+                       border: "none",
+                       color: "#fff",
+                       fontSize: "2rem",
+                       cursor: "pointer",
+                     }}
+                   >
+                     ×
+                   </button>
+                   <img
+                     src={imgsrc}
+                     alt="Preview da Imagem"
+                     style={{
+                       maxWidth: "80vw",
+                       maxHeight: "90vh",
+                       objectFit: "contain",
+                       borderRadius: "8px",
+                     }}
+                   />
+                 </div>
+               )}
             </div>
           </div>
         </main>

@@ -2,36 +2,49 @@ import {
     getFirestore, collection, getDocs, query, where, addDoc, doc, updateDoc, deleteDoc 
 } from "firebase/firestore";
 import { app } from "./firebase.js";
+import { getStorage, ref, uploadString, getDownloadURL } from "firebase/storage";
+ 
 
 const db = getFirestore(app);
 
-export async function SaveEssay(THEME, 
+export async function SaveEssay(
+    THEME,
     MODEL,
-    AI_MODEL, 
-    TITLE, 
-    CONTENT, 
-    GENERAL_ANALYSIS, 
-    FINAL_SCORE, 
-    ANALYSIS_COMPETENCE1, 
-    ANALYSIS_COMPETENCE2, 
-    ANALYSIS_COMPETENCE3, 
-    ANALYSIS_COMPETENCE4, 
-    ANALYSIS_COMPETENCE5, 
+    AI_MODEL,
+    TITLE,
+    CONTENT,
+    GENERAL_ANALYSIS,
+    FINAL_SCORE,
+    ANALYSIS_COMPETENCE1,
+    ANALYSIS_COMPETENCE2,
+    ANALYSIS_COMPETENCE3,
+    ANALYSIS_COMPETENCE4,
+    ANALYSIS_COMPETENCE5,
     SCORE_COMPETENCE1,
     SCORE_COMPETENCE2,
     SCORE_COMPETENCE3,
     SCORE_COMPETENCE4,
     SCORE_COMPETENCE5,
-    DRAFTID = null) {
+    DRAFTID = null,
+    IMAGE_BASE64 = null // nova entrada
+) {
     try {
         const user = JSON.parse(localStorage.getItem("USER"));
         
-        if (!user || !user.uid) {
-            throw new Error("Usuário não autenticado.");
+        if (!user || !user.uid) throw new Error("Usuário não autenticado.");
+ 
+        const db = getFirestore(app);
+        const storage = getStorage(app);
+
+        let imageUrl = "";
+
+        if (IMAGE_BASE64) {
+            const storageRef = ref(storage, `users/${user.uid}/essays/${Date.now()}.jpg`);
+            await uploadString(storageRef, IMAGE_BASE64, 'base64');
+            imageUrl = await getDownloadURL(storageRef);
         }
 
         const essaysCollectionRef = collection(db, `users/${user.uid}/essays`);
-        
         await addDoc(essaysCollectionRef, {
             theme: THEME,
             essayModel: MODEL,
@@ -50,17 +63,14 @@ export async function SaveEssay(THEME,
             scoreCompetence3: SCORE_COMPETENCE3,
             scoreCompetence4: SCORE_COMPETENCE4,
             scoreCompetence5: SCORE_COMPETENCE5,
+            imageUrl: imageUrl,
             date: new Date().toISOString(),
 
         });
 
-        console.log("Redação salva com sucesso.");
-
-        // Se veio de um rascunho, apaga do draft
         if (DRAFTID) {
             const draftRef = doc(db, `users/${user.uid}/draft/${DRAFTID}`);
             await deleteDoc(draftRef);
-            console.log(`Rascunho ${DRAFTID} removido.`);
         }
 
         return { success: true };
@@ -69,6 +79,7 @@ export async function SaveEssay(THEME,
         return { success: false, error: error.message };
     }
 }
+
 
 export async function GetEssays() {
     try {

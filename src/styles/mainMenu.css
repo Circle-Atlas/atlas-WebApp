@@ -261,7 +261,7 @@ header {
     text-decoration: none;
 }
 
-#corrected-essay-mensage {
+#corrected-essay p {
     font-family: 'sf-pro-hounded-medium';
     font-size: 18px;
     
@@ -356,7 +356,7 @@ header {
     margin-bottom: 16px;
 }
 
-#conteudo-corrected-essay-carrosel {
+#conteudo-carrosel {
     width: 1130px;
     height: auto;
 }
