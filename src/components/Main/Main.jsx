@@ -32,6 +32,36 @@ export default function Main({ MAIN }) {
 
   const timeoutRef = useRef(null);
 
+  {/*
+    
+  Criacao do Menu do compartilhar e apagar  
+  
+  */}
+
+    const [menuOpen, setMenuOpen] = useState(false);
+    const menuRef = useRef();
+
+    const toggleMenu = () => {
+      setMenuOpen(!menuOpen);
+    };
+
+    const handleClickOutside = (event) => {
+      if (menuRef.current && !menuRef.current.contais(event.target)) {
+        setMenuOpen(false);
+      }
+    };
+
+    useEffect(() => {
+      document.addEventListener('mousedown', handleClickOutside);
+      return () => document.removeEventListener('mousedown', handleClickOutside);
+    }, []);
+
+  {/*
+    
+    ================================================================
+
+  */}
+
   async function fetchEssays() {
     const fetchedEssays = await GetEssays();
     setEssays(fetchedEssays || []);
@@ -178,27 +208,33 @@ useEffect(() => {
                  e com o tema e a pontuação final */}
                  <div id="redacao-corrigida">
                     <h3>Redações Corrigidas</h3>
-                 </div>
-                 <div id="ver-tudo">
                     <a href="#">Ver tudo</a>
                  </div>
                 <div id="conteudo-carrosel">
                   <div id="corrected-essay-carrosel">
                     {essays.length > 0 ? (
                       essays.map((essay) => (
-                        <div className="corrected-essay" key={essay.id}>
-                          <div id="essay-options">
-                             <button id="share-essay">Compartilhar</button>
-                             <button id="delete-essay" onClick={async () => {
-                               await DeleteEssay(essay.id);
-                               fetchEssays();
-                             }}>Apagar</button>
-                           </div>
-                           
-                           <p id="themeFinalScore">{essay.theme}</p>
-                           
-                           <div id="NumberFinalScore-background">
-                           <p id="NumberFinalScore">{essay.finalScore}</p>
+                        <div className="corrected-essay" key={essay.id} ref={menuRef}>
+                          <div id="corrected-header">
+                          <p id="corrected-time">há 6 min</p>
+                            <button id="corrected-menu" onClick={toggleMenu}>
+                              <img src="./src/assets/tres-bolinhas.png" alt="tres bolinhas" />
+                            </button>
+                          </div>
+                          <p id="themeFinalScore">{essay.theme}</p>
+                          {menuOpen && (
+                            <div id="essay-options">
+                              <div id="essay-option-item">
+                                <button id="share-essay">Compartilhar</button>
+                                <button id="delete-essay" onClick={async () => {
+                                  await DeleteEssay(essay.id);
+                                  fetchEssays();
+                                }}>Apagar</button>
+                              </div>
+                            </div>
+                          )}
+                           <div id="corrected-footer">
+                                <p id="NumberFinalScore">{essay.finalScore}</p>
                            </div>
                         </div>
                       ))
@@ -211,19 +247,28 @@ useEffect(() => {
                   <div id="draft-essays-container">
                   <div id="rascunho">
                     <h3>Rascunhos</h3>
+                    <a href="#">Ver tudo</a>
                  </div>
                     <div id="draft-essay-carrosel">
                     {drafts.length > 0 ? (
                            drafts.map((draft) => (
                              <div className="draft-essay" key={draft.id} style={{ cursor: "pointer" }}>
+                              <div id="draft-header">
+                                <p id="draft-time">há 6 min</p>
+                                <button id="draft-menu">
+                                  <img src="./src/assets/tres-bolinhas.png" alt="tres bolinhas" />
+                                </button>
+                              </div>
                                 <div id="essay-options">
-                                  <button id="delete-essay" onClick={async () => {
-                                    await DeleteEssayDraft(draft.id);
-                                    fetchEssays();
-                                  }}>Apagar</button>
+                                <div id="essay-option-item">
+                                <button id="delete-essay" onClick={async () => {
+                                  await DeleteEssayDraft(draft.id);
+                                  fetchEssays();
+                                }}>Apagar</button>
+                              </div>
                                 </div>
 
-                                <p id="themeFinalScore" readOnly onClick={(event) => {
+                                <p id="themeFinalScore-draft" readOnly onClick={(event) => {
                                  setSelectedMain("WRITE_ESSAY")
                                  setTitle(draft.title);
                                  setTheme(draft.theme);
@@ -310,7 +355,7 @@ useEffect(() => {
                 </label>
                 <div id="model">
                   <button
-                    className="modelType selected"
+                    className="modelType"
                     onClick={(event) => {
                       document
                         .querySelector(".modelType.selected")

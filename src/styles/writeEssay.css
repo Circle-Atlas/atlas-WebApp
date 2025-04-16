@@ -185,7 +185,7 @@
     margin-top: 370px;
 }
 
-.custom-file-upload {
+.custom-file-essay {
     display: inline-flex;
     align-items: center;
     gap: 8px;
@@ -197,11 +197,11 @@
     font-family: "sf-pro-hounded-medium";
     font-size: 18px;
     margin-bottom: 20px;
-  }
+}
 
-  #file-essay {
+#file-essay {
     display: none;
-  }
+}
 
 #camera-icon {
     width: 20px;
@@ -266,6 +266,8 @@ label {
     gap: 40px;   
 }
 
+/*transition: 0.3s ease all;*/
+/*
 .modelType {
     width: 140px;
     padding: 15px;
@@ -278,9 +280,9 @@ label {
 
     cursor: pointer;
     
-
     box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.1);
 }
+*/
 
 .modelType {
     width: 140px;
