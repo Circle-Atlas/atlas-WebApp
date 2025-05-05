@@ -442,7 +442,8 @@ header {
 }
 
 #corrected-essay-carrosel {
-    display: flex;
+    display: grid;
+    grid-auto-flow: column;
     scroll-behavior: auto;
     overflow-y: auto;
     overscroll-behavior-x: contain;
@@ -542,7 +543,8 @@ header {
 }
 
 #draft-essay-carrosel {
-    display: flex;
+    display: grid;
+    grid-auto-flow: column;
     scroll-behavior: auto;
     overflow-y: auto;
     overscroll-behavior-x: contain;
