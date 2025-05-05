@@ -5,6 +5,8 @@ import { OCRGoogleAPI } from "../../api/ocr.js";
 import confetti from "canvas-confetti";
 import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
+import  DETALHE_FUNDO from "./src/assets/detalhe-fundo.png"
+import LOGO_ATLAS_MENOR from "./src/assets/logo-atlas-menor.png"
  
 
 
@@ -267,7 +269,7 @@ useEffect(() => {
     case "MAIN_MENU":
         return (
             <main>
-                <img id="detalhe-fundo-menu" src="./src/assets/detalhe-fundo.png" alt="detalhe-fundo" />
+                <img id="detalhe-fundo-menu" src={DETALHE_FUNDO} alt="detalhe-fundo" />
                 <div id="nav-bar-menu">
                     <button id="icone-menu"></button>
                     <button id="jornada-menu">
@@ -276,7 +278,7 @@ useEffect(() => {
                     <button id="temas-menu">
                       
                     </button>
-                    <img id="logo-atlas-menor-menu" src="./src/assets/logo-atlas-menor.png" alt="logo-atlas"/>
+                    <img id="logo-atlas-menor-menu" src={LOGO_ATLAS_MENOR} alt="logo-atlas"/>
                 </div>
                 <header>
             <div id="card-menu">
