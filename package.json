@@ -12,6 +12,7 @@
   "dependencies": {
     "@google-cloud/vision": "^5.1.0",
     "aixplain": "^1.0.0",
+    "canvas-confetti": "^1.9.3",
     "firebase": "^11.4.0",
     "react": "^19.0.0",
     "react-circular-progressbar": "^2.2.0",

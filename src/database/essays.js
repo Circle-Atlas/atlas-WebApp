@@ -38,7 +38,7 @@ export async function SaveEssay(
         let imageUrl = "";
 
         if (IMAGE_BASE64) {
-            const storageRef = ref(storage, `users/${user.uid}/essays/${Date.now()}.jpg`);
+            const storageRef = ref(storage, `essay_images/${user.uid}/essays/${Date.now()}.jpg`);
             await uploadString(storageRef, IMAGE_BASE64, 'base64');
             imageUrl = await getDownloadURL(storageRef);
         }

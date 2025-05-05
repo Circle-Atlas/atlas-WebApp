@@ -197,6 +197,11 @@
     font-family: "sf-pro-hounded-medium";
     font-size: 18px;
     margin-bottom: 20px;
+    transition: 0.5s ease all;
+}
+
+.custom-file-essay:hover {
+    opacity: 0.9;
 }
 
 #file-essay {
@@ -319,6 +324,11 @@ label {
     font-size: 16px;
     border: none;
     cursor: pointer;
+    transition: .5s ease all;
+}
+
+#correct:hover {
+    opacity: 0.9;
 }
 
 #container-right-redacao {
@@ -349,7 +359,7 @@ label {
 #essay-content {
     width: 700px;
     padding: 20px;
-    height: 625px;
+    height: 600px;
 
     resize: none;
 
@@ -369,4 +379,28 @@ textarea:focus {
 
 input {
     outline: none;
+}
+
+#file-container {
+    display: flex;
+    gap: 5px;
+    background: none;
+
+    margin-top: 25px;
+}
+
+#file-name {
+    font-family: 'sf-pro-hounded-medium';
+    color: #7E7E7E;
+    background: none;
+    font-size: 1.1rem;
+    transition: .3s ease all;
+}
+
+#file-name:hover {
+    color: var(--cor-principal);
+}
+
+#file-container img {
+    background: none;
 }

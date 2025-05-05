@@ -174,7 +174,7 @@ header {
 /* container da direita */
 
 #right-container-menu {
-    width: 1200px;
+    width: 1050px;
     height: 640px;
 
     margin-left: 20px;
@@ -190,7 +190,7 @@ header {
     font-family: 'sf-pro-hounded-medium';
     color: white;
 
-    background-color: #762D6F;
+    background-color: var(--cor-secundaria);
     background-image: url(/src/assets/logoEscreverRedacao.png);
     background-repeat: no-repeat;
     background-position: left;
@@ -201,6 +201,11 @@ header {
 
     border: none;
     cursor: pointer;
+    transition: 0.5s ease all;
+}
+
+#new-essay:hover {
+    opacity: 0.9;
 }
 
 #new-essay-container {
@@ -208,6 +213,29 @@ header {
 }
 
 /* redacoes corrigidas */
+
+
+
+.seta-direita {
+    position: absolute;
+    left: 1170px;
+    top: 150px;
+
+    border: none;
+    background: transparent;
+    cursor: pointer;
+}
+
+.seta-esquerda {
+    position: absolute;
+    right: 1170px;
+    top: 150px;
+
+    border: none;
+    background: transparent;
+    cursor: pointer;
+}
+
 
 #corrected-essays-container {
     width: 1130px;
@@ -337,14 +365,18 @@ header {
     display: flex;
     justify-content: space-between;
     flex-direction: column;
-    /*
-    align-items: end;
-    justify-items: center;
-    */
 
     scroll-snap-align: start;
 
     background-color: white;
+
+    
+}
+
+.corrected-essay p {
+    text-align: center;
+    font-family: 'sf-pro-hounded-medium';
+    background: transparent;
 }
 
 #essay-options {
@@ -474,6 +506,12 @@ header {
     background-color: white;
 }
 
+.draft-essay p {
+    text-align: center;
+    font-family: 'sf-pro-hounded-medium';
+    background: transparent;
+}
+
 #themeFinalScore-draft {
     width: auto;
     height: auto;
@@ -542,6 +580,58 @@ header {
     background: none;
     border: none;
 }
+
+#loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: #00b6a0;
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 2rem;
+    flex-direction: column;
+    font-family: 'sf-pro-hounded-medium';
+    gap: 20px;
+}
+
+#loading-overlay p {
+    background: transparent;
+}
+
+.loader {
+    width: 50px;
+    aspect-ratio: 1.154;
+    position: relative;
+    background: conic-gradient(from 120deg at 50% 64%,#0000, #ffffff 1deg 120deg,#0000 121deg);
+    animation: l27-0 1.5s infinite cubic-bezier(0.3,1,0,1);
+  }
+  .loader:before,
+  .loader:after {
+    content:'';
+    position: absolute;
+    inset:0;
+    background:inherit;
+    transform-origin: 50% 66%;
+    animation: l27-1 1.5s infinite;
+  }
+  .loader:after {
+    --s:-1;
+  }
+  @keyframes l27-0 {
+     0%,30%      {transform: rotate(0)}
+     70%         {transform: rotate(120deg)}
+     70.01%,100% {transform: rotate(360deg)}
+  }
+  @keyframes l27-1 {
+     0%      {transform: rotate(calc(var(--s,1)*120deg)) translate(0)}
+     30%,70% {transform: rotate(calc(var(--s,1)*120deg)) translate(calc(var(--s,1)*-5px),10px)}
+     100%    {transform: rotate(calc(var(--s,1)*120deg)) translate(0)}
+  }
 
 
 

@@ -2,6 +2,10 @@ import { useState, useEffect, useRef } from "react";
 import { AnalyzeEssay } from "../../api/aixplain.js";
 import { SaveEssay, GetEssays, SaveEssayDraft, DeleteEssayDraft, GetEssayDrafts, DeleteEssay } from "../../database/essays.js";
 import { OCRGoogleAPI } from "../../api/ocr.js";
+import confetti from "canvas-confetti";
+import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
+import "react-circular-progressbar/dist/styles.css";
+ 
 
 export default function Main({ MAIN }) {
   
@@ -32,29 +36,98 @@ export default function Main({ MAIN }) {
 
   const timeoutRef = useRef(null);
 
+  const [loading, setLoading] = useState(false);
+
   {/*
     
   Criacao do Menu do compartilhar e apagar  
   
   */}
 
-    const [menuOpen, setMenuOpen] = useState(false);
+    const [openMenuId, setOpenMenuId] = useState(null);
+
     const menuRef = useRef();
 
-    const toggleMenu = () => {
-      setMenuOpen(!menuOpen);
+    const toggleMenu = (id) => {
+      setOpenMenuId(prevId => (prevId === id ? null : id));
     };
 
-    const handleClickOutside = (event) => {
-      if (menuRef.current && !menuRef.current.contais(event.target)) {
-        setMenuOpen(false);
-      }
-    };
+  {/*
+    
+    ================================================================
 
-    useEffect(() => {
-      document.addEventListener('mousedown', handleClickOutside);
-      return () => document.removeEventListener('mousedown', handleClickOutside);
-    }, []);
+  */}
+
+  {/*
+
+    Setas para navegar nas redações e nos rascunhos
+
+  */}
+
+  const carrosselRef = useRef(null);
+  const [showLeftArrow, setShowLeftArrow] = useState(false);
+  const [showRightArrow, setShowRightArrow] = useState(true);
+
+  const verificarSetas = () => {
+    const carrossel = carrosselRef.current;
+    if (!carrossel) return;
+
+    const scrollEsquerda = carrossel.scrollLeft;
+    const scrollMaximo = carrossel.scrollWidth - carrossel.clientWidth;
+
+    setShowLeftArrow(scrollEsquerda > 0);
+    setShowRightArrow(scrollEsquerda < scrollMaximo - 5);
+  };
+
+  const rolarCarrossel = (pixels) => {
+    carrosselRef.current.scrollBy({ left: pixels, behavior: "smooth" });
+  };
+
+  useEffect(() => {
+    verificarSetas();
+    const carrossel = carrosselRef.current;
+    carrossel.addEventListener("scroll", verificarSetas);
+
+    return () => {
+      carrossel.removeEventListener("scroll", verificarSetas);
+    };
+  }, []);
+
+  {/*
+    
+    DraftEssay
+
+  */}
+
+  const carrosselDraftRef = useRef(null);
+  const [showLeftArrowDraft, setShowLeftArrowDraft] = useState(false);
+  const [showRightArrowDraft, setShowRightArrowDraft] = useState(true);
+
+  const verificarSetasDraft = () => {
+    const carrosselDraft = carrosselDraftRef.current;
+    if (!carrosselDraft) return;
+
+    const scrollEsquerda = carrosselDraft.scrollLeft;
+    const scrollMaximo = carrosselDraft.scrollWidth - carrosselDraft.clientWidth;
+
+    setShowLeftArrow(scrollEsquerda > 0);
+    setShowRightArrow(scrollEsquerda < scrollMaximo - 5);
+  };
+
+  const rolarCarrosselDraft = (pixels) => {
+    carrosselDraftRef.current.scrollBy({ left: pixels, behavior: "smooth" });
+  };
+
+  useEffect(() => {
+    verificarSetas();
+    const carrosselDraft = carrosselDraftRef.current;
+    carrosselDraft.addEventListener("scroll", verificarSetas);
+
+    return () => {
+      carrosselDraft.removeEventListener("scroll", verificarSetas);
+    };
+  }, []);
+
 
   {/*
     
@@ -80,6 +153,7 @@ export default function Main({ MAIN }) {
       const base64 = reader.result.split(',')[1]; 
       setImageBase64(base64);
   
+      setLoading(true);
       try {
         const transcription = await OCRGoogleAPI(base64);
         setContent(transcription);
@@ -88,29 +162,7 @@ export default function Main({ MAIN }) {
       } catch (error) {
         console.error("Erro ao processar a imagem:", error);
       }
-    };
-  
-    reader.readAsDataURL(file);
-  }
-
-  async function handleFileChange(event) {
-    const file = event.target.files[0];
-    if (!file) return;
-  
-    const reader = new FileReader();
-  
-    reader.onloadend = async () => {
-      const base64 = reader.result.split(',')[1];
-      setImageBase64(base64); 
-  
-      try {
-        const transcription = await OCRGoogleAPI(base64);
-        setContent(transcription);
-        setFileName(file.name);
-        setImgSrc(reader.result)
-      } catch (error) {
-        console.error("Erro ao processar a imagem:", error);
-      }
+      setLoading(false);
     };
   
     reader.readAsDataURL(file);
@@ -143,7 +195,72 @@ useEffect(() => {
     }
 }, [theme, model, title, content, selectedMain]);
 
+useEffect(() => {
+  if (selectedMain === "ESSAY_CORRECTION") {
+    const canvas = document.createElement("canvas");
+    canvas.style.position = "fixed";
+    canvas.style.top = 0;
+    canvas.style.left = 0;
+    canvas.style.width = "100%";
+    canvas.style.height = "100%";
+    canvas.style.pointerEvents = "none";
+    canvas.style.zIndex = 9999;
+    canvas.style.backgroundColor = "transparent";
+
+    document.body.appendChild(canvas);
+
+    const myConfetti = confetti.create(canvas, {
+      resize: true,
+      useWorker: true,
+    });
+
+    myConfetti({
+      particleCount: 100,
+      spread: 70,
+      origin: { y: 0.4, x: 0.8 },
+    });
+
+    setTimeout(() => {
+      document.body.removeChild(canvas);
+    }, 5000); 
+  }
+}, [selectedMain]);
+
+const [animatedScore, setAnimatedScore] = useState(0);
+
+useEffect(() => {
+  if (selectedMain === "ESSAY_CORRECTION") {
+    const essay = JSON.parse(localStorage.getItem("LastEssay")) || {};
+    let start = 0;
+    const end = essay.Final_Score || 0;
+    const duration = 1000;
+    const stepTime = 10;
+
+    const increment = (end / duration) * stepTime;
+
+    const timer = setInterval(() => {
+      start += increment;
+      if (start >= end) {
+        start = end;
+        clearInterval(timer);
+      }
+      setAnimatedScore(Math.round(start));
+    }, stepTime);
+
+    return () => clearInterval(timer); // limpa o intervalo ao desmontar
+  }
+}, [selectedMain]);
+
   // Até aqui
+  if (loading) {
+    return (
+      <div id="loading-overlay">
+        <div class="loader">
+        </div>
+        <p>Carregando...</p>
+      </div>
+    );
+  }
 
   switch (selectedMain) {
     // Página principal
@@ -210,19 +327,30 @@ useEffect(() => {
                     <h3>Redações Corrigidas</h3>
                     <a href="#">Ver tudo</a>
                  </div>
+                  
                 <div id="conteudo-carrosel">
-                  <div id="corrected-essay-carrosel">
+                
+                  <button className="seta-esquerda" onClick={() => rolarCarrossel(-300)}>
+                    <img src="./src/assets/backIcon.png" alt="" />
+                  </button>
+                
+                
+                  <button className="seta-direita" onClick={() => rolarCarrossel(300)}>
+                    <img src="./src/assets/backIconDois.png" alt="" />
+                  </button>
+                
+                  <div id="corrected-essay-carrosel" ref={carrosselRef}>
                     {essays.length > 0 ? (
                       essays.map((essay) => (
                         <div className="corrected-essay" key={essay.id} ref={menuRef}>
                           <div id="corrected-header">
                           <p id="corrected-time">há 6 min</p>
-                            <button id="corrected-menu" onClick={toggleMenu}>
+                          <button id="corrected-menu" onClick={() => toggleMenu(essay.id)}>
                               <img src="./src/assets/tres-bolinhas.png" alt="tres bolinhas" />
                             </button>
                           </div>
                           <p id="themeFinalScore">{essay.theme}</p>
-                          {menuOpen && (
+                          {openMenuId === essay.id && (
                             <div id="essay-options">
                               <div id="essay-option-item">
                                 <button id="share-essay">Compartilhar</button>
@@ -248,26 +376,36 @@ useEffect(() => {
                   <div id="rascunho">
                     <h3>Rascunhos</h3>
                     <a href="#">Ver tudo</a>
-                 </div>
-                    <div id="draft-essay-carrosel">
+                  </div>
+
+                  <button className="seta-esquerda" onClick={() => rolarCarrosselDraft(-300)}>
+                    <img src="./src/assets/backIcon.png" alt="" />
+                  </button>
+                
+                  <button className="seta-direita" onClick={() => rolarCarrosselDraft(300)}>
+                    <img src="./src/assets/backIconDois.png" alt="" />
+                  </button>
+
+                    <div id="draft-essay-carrosel" ref={carrosselDraftRef}>
                     {drafts.length > 0 ? (
                            drafts.map((draft) => (
                              <div className="draft-essay" key={draft.id} style={{ cursor: "pointer" }}>
                               <div id="draft-header">
                                 <p id="draft-time">há 6 min</p>
-                                <button id="draft-menu">
+                                <button id="draft-menu" onClick={() => toggleMenu(draft.id)}>
                                   <img src="./src/assets/tres-bolinhas.png" alt="tres bolinhas" />
                                 </button>
                               </div>
+                              {openMenuId === draft.id && (
                                 <div id="essay-options">
                                 <div id="essay-option-item">
-                                <button id="delete-essay" onClick={async () => {
-                                  await DeleteEssayDraft(draft.id);
-                                  fetchEssays();
-                                }}>Apagar</button>
-                              </div>
+                                     <button id="delete-essay" onClick={async () => {
+                                       await DeleteEssayDraft(draft.id);
+                                       fetchEssays();
+                                     }}>Apagar</button>
+                                   </div>
                                 </div>
-
+                              )}
                                 <p id="themeFinalScore-draft" readOnly onClick={(event) => {
                                  setSelectedMain("WRITE_ESSAY")
                                  setTitle(draft.title);
@@ -385,6 +523,7 @@ useEffect(() => {
                     // Isso tu ignora pois é o que vai acontecer no click do botão
                     // que no caso vai enviar para a API corrigir a redação
 
+                    setLoading(true);
                     const title =
                       document.getElementById("essay-title").value.trim() ||
                       "Sem título";
@@ -454,6 +593,7 @@ useEffect(() => {
                       }
                     }
 
+                    setLoading(false);
                     // Até aqui
                   }}
                 >
@@ -474,13 +614,19 @@ useEffect(() => {
                 value={content}
                 onChange={e => setContent(e.target.value)}
               ></textarea>
-               <p
-                 id="file-name"
-                 style={{ cursor: "pointer", color: "blue", textDecoration: "underline" }}
-                 onClick={() => setShowOverlay(true)}
-               >
-                 {filename}
-               </p>
+              <div id="file-container">
+                {/*
+                <img src="./src/assets/icon-file.png" alt="" />
+                */}
+                <p
+                  id="file-name"
+                  style={{ cursor: "pointer", textDecoration: "none" }}
+                  onClick={() => setShowOverlay(true)}
+                >
+                  {filename}
+                </p>
+              </div>
+               
                {showOverlay && (
                  <div
                    id="overlay-img"
@@ -530,9 +676,8 @@ useEffect(() => {
         </main>
       );
     // Página após correção da redação
-    case "ESSAY_CORRECTION":
-      const lastEssay = JSON.parse(localStorage.getItem("LastEssay")) || {};
-
+    case "ESSAY_CORRECTION": 
+    const lastEssay = JSON.parse(localStorage.getItem("LastEssay")) || {};
       return (
         <main>
           <img id="detalhe-fundo-correcao-redacao" src="./src/assets/detalhe-fundo.png" alt="detalhe-fundo" />
@@ -559,8 +704,18 @@ useEffect(() => {
               <button id="btn-share">
                 <img src="./src/assets/button-share.png" alt="botao-compartilhar" />
               </button>
-              <img id="confete" src="./src/assets/confete.png" alt="confete" />
-              <h1 id="finalScore">{lastEssay.Final_Score}</h1>
+              <CircularProgressbar
+                 value={animatedScore}
+                 maxValue={1000}
+                 text={`${animatedScore}`}
+                 styles={buildStyles({
+                   pathColor: "#00b3a7",
+                   textColor: "#00b3a7",
+                   trailColor: "#f0f0f0",
+                   textSize: "20px",
+                   strokeLinecap: "round",
+                 })}
+               />
               <h2 id="analiseGeral">Análise Geral</h2>
               <textarea id="analiseGeralTexto" readOnly value={lastEssay.General_Analysis}></textarea>
 
