@@ -7,10 +7,10 @@ import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
  
 
+
 export default function Main({ MAIN }) {
   
   // Igonra isso
-  
   const user = JSON.parse(localStorage.getItem("USER"));
 
   const [selectedMain, setSelectedMain] = useState(MAIN);
@@ -522,7 +522,6 @@ useEffect(() => {
                   onClick={async () => {
                     // Isso tu ignora pois é o que vai acontecer no click do botão
                     // que no caso vai enviar para a API corrigir a redação
-
                     setLoading(true);
                     const title =
                       document.getElementById("essay-title").value.trim() ||
