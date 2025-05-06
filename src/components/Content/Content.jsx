@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react"
 import { SignIn, SignUp } from "../../database/authentication";
 import Main from "../Main/Main";
+import DETALHE_FUNDO from "../../assets/detalhe-fundo.png"
+import LOGO_ATLAS from "../../assets/logo-atlas.png"
 
 export default function Content() {
 
@@ -19,11 +21,11 @@ export default function Content() {
         case "LOGIN":
             return(
                 <div id="page-login">
-                    <img id="detalhe-fundo-login" src="./src/assets/detalhe-fundo.png" alt="detalhe-fundo"/>
+                    <img id="detalhe-fundo-login" src={DETALHE_FUNDO} alt="detalhe-fundo"/>
                     <div id="container-left-login">
                         <h2 id="bem-vindo-h2-container">
                             <p id="bem-vindo">Bem-vindo ao</p>
-                            <img id="logo-atlas" src="./src/assets/logo-atlas.png" alt="Logo Atlas"/>
+                            <img id="logo-atlas" src={LOGO_ATLAS} alt="Logo Atlas"/>
                             <p id="frase-destaque-login">Um app educacional projetado
                             especialmente para auxiliar você na sua redação nos vestibulares.</p>
                         </h2>
@@ -65,11 +67,11 @@ export default function Content() {
         case "REGISTER":
             return(
                 <div id="page-cadastro">
-                    <img id="detalhe-fundo-cadastro" src="./src/assets/detalhe-fundo.png" alt="" />
+                    <img id="detalhe-fundo-cadastro" src={DETALHE_FUNDO} alt="" />
                     <div id="container-left-cadastro">
                         <h2 id="bem-vindo-h2-container">
                             <p id="bem-vindo-cadastro">Bem-vindo ao</p>
-                            <img id="logo-atlas" src="./src/assets/logo-atlas.png" alt="Logo Atlas"/>
+                            <img id="logo-atlas" src={LOGO_ATLAS} alt="Logo Atlas"/>
                             <p id="frase-destaque-cadastro">Um app educacional projetado
                             especialmente para auxiliar você na sua redação nos vestibulares.</p>
                         </h2>

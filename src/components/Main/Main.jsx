@@ -5,8 +5,15 @@ import { OCRGoogleAPI } from "../../api/ocr.js";
 import confetti from "canvas-confetti";
 import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
- 
-
+import DETALHE_FUNDO from "../../assets/detalhe-fundo.png"
+import LOGO_ATLAS_MENOR from "../../assets/logo-atlas-menor.png"
+import BACK_ICON_LEFT from "../../assets/backIcon.png"
+import BACK_ICON_RIGHT from "../../assets/backIconDois.png"
+import BTN_SHARE from "../../assets/button-share.png"
+import CAMERA from "../../assets/camera.png"
+import ICON_FILE from "../../assets/icon-file.png"
+import MENINA_ESCREVENDO from "../../assets/meninaEscrevendo.png"
+import TRES_BOLINHAS from "../../assets/tres-bolinhas.png"
 
 export default function Main({ MAIN }) {
   
@@ -267,7 +274,7 @@ useEffect(() => {
     case "MAIN_MENU":
         return (
             <main>
-                <img id="detalhe-fundo-menu" src="./src/assets/detalhe-fundo.png" alt="detalhe-fundo" />
+                <img id="detalhe-fundo-menu" src={DETALHE_FUNDO} alt="detalhe-fundo" />
                 <div id="nav-bar-menu">
                     <button id="icone-menu"></button>
                     <button id="jornada-menu">
@@ -276,7 +283,7 @@ useEffect(() => {
                     <button id="temas-menu">
                       
                     </button>
-                    <img id="logo-atlas-menor-menu" src="./src/assets/logo-atlas-menor.png" alt="logo-atlas"/>
+                    <img id="logo-atlas-menor-menu" src={LOGO_ATLAS_MENOR} alt="logo-atlas"/>
                 </div>
                 <header>
             <div id="card-menu">
@@ -331,12 +338,12 @@ useEffect(() => {
                 <div id="conteudo-carrosel">
                 
                   <button className="seta-esquerda" onClick={() => rolarCarrossel(-300)}>
-                    <img src="./src/assets/backIcon.png" alt="" />
+                    <img src={BACK_ICON_LEFT} alt="" />
                   </button>
                 
                 
                   <button className="seta-direita" onClick={() => rolarCarrossel(300)}>
-                    <img src="./src/assets/backIconDois.png" alt="" />
+                    <img src={BACK_ICON_RIGHT} alt="" />
                   </button>
                 
                   <div id="corrected-essay-carrosel" ref={carrosselRef}>
@@ -346,7 +353,7 @@ useEffect(() => {
                           <div id="corrected-header">
                           <p id="corrected-time">há 6 min</p>
                           <button id="corrected-menu" onClick={() => toggleMenu(essay.id)}>
-                              <img src="./src/assets/tres-bolinhas.png" alt="tres bolinhas" />
+                              <img src={TRES_BOLINHAS} alt="tres bolinhas" />
                             </button>
                           </div>
                           <p id="themeFinalScore">{essay.theme}</p>
@@ -379,11 +386,11 @@ useEffect(() => {
                   </div>
 
                   <button className="seta-esquerda" onClick={() => rolarCarrosselDraft(-300)}>
-                    <img src="./src/assets/backIcon.png" alt="" />
+                    <img src={BACK_ICON_LEFT} alt="seta-esquerda" />
                   </button>
                 
                   <button className="seta-direita" onClick={() => rolarCarrosselDraft(300)}>
-                    <img src="./src/assets/backIconDois.png" alt="" />
+                    <img src={BACK_ICON_RIGHT} alt="seta-direita" />
                   </button>
 
                     <div id="draft-essay-carrosel" ref={carrosselDraftRef}>
@@ -393,7 +400,7 @@ useEffect(() => {
                               <div id="draft-header">
                                 <p id="draft-time">há 6 min</p>
                                 <button id="draft-menu" onClick={() => toggleMenu(draft.id)}>
-                                  <img src="./src/assets/tres-bolinhas.png" alt="tres bolinhas" />
+                                  <img src={TRES_BOLINHAS} alt="tres bolinhas" />
                                 </button>
                               </div>
                               {openMenuId === draft.id && (
@@ -438,7 +445,7 @@ useEffect(() => {
         <main>
           <img
             id="detalhe-fundo-redacao"
-            src="./src/assets/detalhe-fundo.png"
+            src={DETALHE_FUNDO}
             alt="detalhe-fundo"
           />
           <div id="nav-bar-redacao">
@@ -447,7 +454,7 @@ useEffect(() => {
             <button id="temas-redacao"></button>
             <img
               id="logo-atlas-menor-redacao"
-              src="./src/assets/logo-atlas-menor.png"
+              src={LOGO_ATLAS_MENOR}
               alt="logo-atlas"
             />
           </div>
@@ -469,7 +476,7 @@ useEffect(() => {
               ></button>
               <img
                 id="meninaEscrevendo"
-                src="./src/assets/meninaEscrevendo.png"
+                src={MENINA_ESCREVENDO}
                 alt="Menina Escrevendo"
               />
               <div id="inf-redacao">
@@ -481,7 +488,7 @@ useEffect(() => {
                   <button id="hamburguer"></button>
                 </div>
                 <label for="file-essay" class="custom-file-essay">
-                  <img src="./src/assets/camera.png" alt="camera" id="camera-icon" />
+                  <img src={CAMERA} alt="camera" id="camera-icon" />
                   Carregar foto
                 </label>
                 <input id="file-essay" type="file" accept=".jpg,.png,.webp" onChange={handleFileChange}/>
@@ -679,12 +686,12 @@ useEffect(() => {
     const lastEssay = JSON.parse(localStorage.getItem("LastEssay")) || {};
       return (
         <main>
-          <img id="detalhe-fundo-correcao-redacao" src="./src/assets/detalhe-fundo.png" alt="detalhe-fundo" />
+          <img id="detalhe-fundo-correcao-redacao" src={DETALHE_FUNDO} alt="detalhe-fundo" />
           <div id="nav-bar-correcao-redacao">
             <button id="icone-correcao-redacao"></button>
             <button id="jornada-correcao-redacao"></button>
             <button id="temas-correcao-redacao"></button>
-            <img id="logo-atlas-menor-correcao-redacao" src="./src/assets/logo-atlas-menor.png" alt="logo-atlas" />
+            <img id="logo-atlas-menor-correcao-redacao" src={LOGO_ATLAS_MENOR} alt="logo-atlas" />
           </div>
 
           <div id="card-correcao-redacao">
@@ -701,7 +708,7 @@ useEffect(() => {
 
             <div id="container-right-correcao-redacao">
               <button id="btn-share">
-                <img src="./src/assets/button-share.png" alt="botao-compartilhar" />
+                <img src={BTN_SHARE} alt="botao-compartilhar" />
               </button>
               <CircularProgressbar
                  value={animatedScore}
