@@ -444,6 +444,7 @@ header {
 #corrected-essay-carrosel {
     display: grid;
     grid-auto-flow: column;
+    justify-content: start;
     scroll-behavior: auto;
     overflow-y: auto;
     overscroll-behavior-x: contain;
@@ -545,6 +546,7 @@ header {
 #draft-essay-carrosel {
     display: grid;
     grid-auto-flow: column;
+    justify-content: start;
     scroll-behavior: auto;
     overflow-y: auto;
     overscroll-behavior-x: contain;
