@@ -13,8 +13,13 @@ export default function Content() {
             setSelectedPage("HOME");
         }
     }, []);
-    
 
+    document.addEventListener("keydown", function(event) {
+        if (event.key === "Enter") {
+          document.getElementById("btn-login").click();
+        }
+    });
+      
     switch (selectedPage) {
 
     // Página de Login
