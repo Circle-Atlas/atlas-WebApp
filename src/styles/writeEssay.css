@@ -1,20 +1,24 @@
 #detalhe-fundo-redacao {
-    width: 100vw;
-    height: 300px;
+    
+    width: 100%;
+    max-height: 500px;
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
+    position: fixed;
+    top: 0;
+    left: 0;
+    
 }
 
 #nav-bar-redacao {
-    width: 220px;
-    height: 680px;
-    border-radius: 20px;
-
-    margin-left: 20px;
-    margin-top: -100px;
-
-    position: absolute;
+    position: fixed;
+    top: 190px;
+    left: 20px;
+    width: 170px;
+    height: 70vh;
+    z-index: 10;
+    background-color: transparent;
 }
 
 #icone-redacao {
@@ -125,35 +129,49 @@
 }
 
 #card-redacao {
-    width: 1760px;
-    height: 860px;
+    width: 100%;
+    max-width: 1720px;
+    height: auto;
+    min-height: 90vh;
+
     background-color: var(--fundo-card-login);
     box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.2);
     border-radius: 20px;
 
-    position: absolute;
+    position: relative;
 
-    margin-top: -275px;
-    margin-left: 130px;
+    margin: 20px;
+    margin-left: 120px;
+    padding: 20px;
+}
+
+#container-card-redacao {
+    width: 100%;
+    height: auto;
+    min-height: 90vh;
+    max-width: 1560;
+    display: flex;
 }
 
 #container-left-redacao {
-    width: 600px;
+    width: 100%;
+    max-width: 700px;
     height: 100px;
 
-    padding: 10px 0px 0px 10px;
-    margin-left: 80px;
+    padding: 10px;
+    margin-left: 0px;
 
     display: flex;
     flex-direction: column;
     align-items: center;
+    background: transparent !important;
 }
 
 #meninaEscrevendo {
     width: 370px;
-    height: 370px;
+    height: auto;
 
-    margin-top: 20px;
+    margin-top: -90px;
 
     position: relative;
 }
@@ -161,8 +179,8 @@
 #back-btn {
     width: 10px;
     padding: 16px;
-    margin-right: 650px;
-    margin-left: 40px;
+
+    margin-right: 600px;
     border: none;
 
     background-image: url(/src/assets/backIcon.png);
@@ -170,7 +188,7 @@
     cursor: pointer;
 
     margin-top: 70px;
-    position: absolute;
+    position: relative;
 }
 
 #inf-redacao {
@@ -180,9 +198,9 @@
     align-items: center;
     gap: 20px;
 
-    position: absolute;
+    position: relative;
 
-    margin-top: 370px;
+    background: transparent !important;
 }
 
 .custom-file-essay {
@@ -239,6 +257,8 @@ label {
 #text-redacao {
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
+    gap: 20px;
 }
 
 #hamburguer {
@@ -259,16 +279,20 @@ label {
 
 #theme {
     width: 300px;
-
-    margin-left: 50px;
+    margin: 0 auto 20px 50px;
+    /*margin-left: 50px;
     margin-bottom: 20px;
+    */
+    
 
     font-size: 16px;
 }
 
 #model {
     display: flex;
-    gap: 40px;   
+    gap: 40px;
+    flex-wrap: wrap;
+    justify-content: center;
 }
 
 /*transition: 0.3s ease all;*/
@@ -315,7 +339,7 @@ label {
     padding: 10px;
     border-radius: 30px;
 
-    margin-top: 30px;
+    margin: 30px auto 0;
 
     background-color: #762D6F;
 
@@ -332,6 +356,15 @@ label {
 }
 
 #container-right-redacao {
+    width: 100%;
+    max-width: 920px;
+    margin: 60px auto 0 50px;
+    
+    display: flex;
+    flex-direction: column;
+    background: transparent !important;
+
+    /*
     width: 800px;
     height: 790px;
 
@@ -340,10 +373,13 @@ label {
 
     display: flex;
     flex-direction: column;
+    */
+    
 }
 
 #essay-title {
-    width: 720px;
+    width: 100%;
+    max-width: 830px;
     padding: 10px;
 
     resize: none;
@@ -357,8 +393,9 @@ label {
 }
 
 #essay-content {
-    width: 700px;
-    padding: 20px;
+    width: 100%;
+    max-width: 830px;
+    padding: 10px;
     height: 600px;
 
     resize: none;
@@ -383,10 +420,12 @@ input {
 
 #file-container {
     display: flex;
+    flex-wrap: wrap;
     gap: 5px;
     background: none;
 
     margin-top: 25px;
+    justify-content: center;
 }
 
 #file-name {
@@ -404,3 +443,190 @@ input {
 #file-container img {
     background: none;
 }
+
+@media screen and (max-width: 1440px) {
+    #card-redacao {
+        margin-left: 130px;
+        width: 85%;
+        height: 90vh;
+    }
+
+    #essay-content {
+        max-width: 510px;
+        height: 525px;
+    }
+
+    #essay-title {
+        max-width: 510px;
+    }
+
+    #meninaEscrevendo {
+        margin-top: -70px;
+        width: 270px;
+    }
+
+    #inf-redacao {
+        margin-top: 10px;
+    }
+
+    label {
+        font-size: 18px;
+    }
+
+    #correct {
+        margin: 20px auto 0;
+    }
+
+    #back-btn {
+        margin-right: 520px;
+        position: relative;
+    }
+
+    #theme {
+        width: 250px;
+        font-size: 14px;
+    }
+
+    .custom-file-essay {
+        padding: 10px 20px;
+        font-size: 16px;
+    }
+
+    #hamburguer {
+        margin: 0 auto;
+    }
+
+    #logo-atlas-menor-redacao {
+        margin-top: 550px;
+    }
+
+}
+
+@media screen and (max-width: 1366px) {
+    #card-redacao {
+        margin-left: 130px;
+        width: 85%;
+        height: 90vh;
+    }
+
+    #essay-content {
+        max-width: 510px;
+        height: 470px;
+    }
+
+    #essay-title {
+        max-width: 510px;
+    }
+
+    #meninaEscrevendo {
+        margin-top: -120px;
+        width: 270px;
+    }
+
+    #inf-redacao {
+        margin-top: 10px;
+    }
+
+    label {
+        font-size: 18px;
+    }
+
+    #correct {
+        margin: 20px auto 0;
+    }
+
+    #back-btn {
+        margin-right: 520px;
+        position: relative;
+    }
+
+    #theme {
+        width: 250px;
+        font-size: 14px;
+    }
+
+    .custom-file-essay {
+        padding: 10px 20px;
+        font-size: 16px;
+    }
+
+    #hamburguer {
+        margin: 0 auto;
+    }
+
+    #logo-atlas-menor-redacao {
+        margin-top: 500px;
+    }
+
+}
+
+/*
+
+@media screen and (max-width: 1024px) {
+    #container-card-redacao {
+        display: flex;
+        flex-direction: column;
+    }
+
+    #container-left-redacao {
+        display: flex;
+    }
+
+    #card-redacao {
+        margin-left: 130px;
+        width: 82%;
+        height: 90vh;
+    }
+
+    #essay-content {
+        max-width: 510px;
+        height: 470px;
+    }
+
+    #essay-title {
+        max-width: 510px;
+    }
+
+    #meninaEscrevendo {
+        margin-top: -120px;
+        width: 270px;
+    }
+
+    #inf-redacao {
+        margin-top: 10px;
+    }
+
+    label {
+        font-size: 18px;
+    }
+
+    #correct {
+        margin: 20px auto 0;
+    }
+
+    #back-btn {
+        margin-right: 520px;
+        position: relative;
+    }
+
+    #theme {
+        width: 250px;
+        font-size: 14px;
+    }
+
+    .custom-file-essay {
+        padding: 10px 20px;
+        font-size: 16px;
+    }
+
+    #hamburguer {
+        margin: 0 auto;
+    }
+
+    #logo-atlas-menor-redacao {
+        margin-top: 470px;
+    }
+
+}
+
+*/

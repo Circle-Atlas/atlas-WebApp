@@ -337,7 +337,7 @@ useEffect(() => {
                   
                 <div id="conteudo-carrosel">
                 
-                  <button className="seta-esquerda" onClick={() => rolarCarrossel(-300)}>
+                  <button className="seta-esquerda-essay" onClick={() => rolarCarrossel(-300)}>
                     <img src={BACK_ICON_LEFT} alt="" />
                   </button>
                 
@@ -385,11 +385,11 @@ useEffect(() => {
                     <a href="#">Ver tudo</a>
                   </div>
 
-                  <button className="seta-esquerda" onClick={() => rolarCarrosselDraft(-300)}>
+                  <button className="seta-esquerda-draft" onClick={() => rolarCarrosselDraft(-300)}>
                     <img src={BACK_ICON_LEFT} alt="seta-esquerda" />
                   </button>
                 
-                  <button className="seta-direita" onClick={() => rolarCarrosselDraft(300)}>
+                  <button className="seta-direita-draft" onClick={() => rolarCarrosselDraft(300)}>
                     <img src={BACK_ICON_RIGHT} alt="seta-direita" />
                   </button>
 
@@ -459,8 +459,9 @@ useEffect(() => {
             />
           </div>
           <div id="card-redacao">
-          <div id="container-left-redacao">
-          <button
+            <div id="container-card-redacao">
+            <div id="container-left-redacao">
+              <button
                 id="back-btn"
                 onClick={() => {
                   setSelectedMain("MAIN_MENU")
@@ -678,6 +679,9 @@ useEffect(() => {
                  </div>
                )}
             </div>
+            </div>
+              
+
           </div>
         </main>
       );
@@ -695,6 +699,7 @@ useEffect(() => {
           </div>
 
           <div id="card-correcao-redacao">
+            <div id="container-card-correcao-redacao">
             <div id="container-left-correcao-redacao">
               <button id="back-btn-correcao-redacao" onClick={() => setSelectedMain("MAIN_MENU")}></button>
               <div id="tema">
@@ -750,6 +755,8 @@ useEffect(() => {
                 <h2>Modelo de Correção: <span id="model-correcao">{lastEssay.model}</span></h2>
               </div>
             </div>
+            </div>
+            
           </div>
 
           {showModal && (

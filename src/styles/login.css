@@ -1,36 +1,56 @@
 /* config background */
 #page-login {
     display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    gap: 50px;
+    padding: 20px;
+    flex-wrap: wrap;
 }
 
 #detalhe-fundo-login {
-    width: 100vw;
-    height: 300px;
+    width: 100%;
+    max-height: 500px;
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
+    position: fixed;
+    top: 0;
+    left: 0;
 }
 
 /* Config. container esquerdo */
 
 #container-left-login {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    flex: 1;
+    max-width: 500px;
 
-    position: absolute;
-    margin-left: 300px;
-    margin-top: 300px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 20px;
+    position: relative;
+    margin: 0;
+    background: none;
+    margin-top: 120px;
 }
 
-#page-login #container-left-login #bem-vindo-h2-container #bem-vindo{
+#bem-vindo-h2-container {
+    background-color: transparent;
+}
+
+#bem-vindo{
     font-size: 40px;
     font-family: 'sf-pro-hounded-light';
 
     padding-bottom: 20px;
+    background-color: transparent !important;
 }
 
-#bem-vindo-h2-container #logo-atlas {
+#logo-atlas {
     width: 500px;
     height: 150px;
 }
@@ -47,25 +67,28 @@
 /* Config. Container direito */
 
 #container-right-login {
+    flex: 1;
+    max-width: 600px;
     display: flex;
-    align-items: center;
     justify-content: center;
-
-    position: absolute;
-    margin-left: 1130px;
-    margin-top: 200px;
+    align-items: center;
+    padding: 20px;
+    position: relative;
+    margin: 0;
+    background: none;
 }
 
 #card-login {
-    width: 577px;
-    height: 650px;
+    width: 100%;
+    max-width: 550px;
+    height: auto;
     background-color: var(--fundo-card-login);
     box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.2);
     border-radius: 20px;
-
     display: flex;
     flex-direction: column;
     align-items: center;
+    padding: 40px 20px;
 }
 
 #bem-vindo-card-login {
@@ -193,7 +216,6 @@ input {
     margin-left: 30px;
 }
 
-
 #buttons-login-api {
     margin-top: 30px;
     display: flex;
@@ -223,3 +245,79 @@ input {
     background-color: black;
     border: none;
 }
+
+@media screen and (max-width: 1024px) {
+    #page-login {
+      flex-direction: column;
+      height: auto;
+      gap: 30px;
+    }
+  
+    #container-left-login,
+    #container-right-login {
+      max-width: 100%;
+      align-items: center;
+      text-align: center;
+    }
+  
+    #card-login {
+      max-width: 90%;
+    }
+  
+    input {
+      width: 100%;
+      max-width: 400px;
+    }
+  }
+
+  #loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: #00b6a0;
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 2rem;
+    flex-direction: column;
+    font-family: 'sf-pro-hounded-medium';
+    gap: 20px;
+}
+
+#loading-overlay p {
+    background: transparent;
+}
+
+.loader {
+    width: 50px;
+    aspect-ratio: 1.154;
+    position: relative;
+    background: conic-gradient(from 120deg at 50% 64%,#0000, #ffffff 1deg 120deg,#0000 121deg);
+    animation: l27-0 1.5s infinite cubic-bezier(0.3,1,0,1);
+  }
+  .loader:before,
+  .loader:after {
+    content:'';
+    position: absolute;
+    inset:0;
+    background:inherit;
+    transform-origin: 50% 66%;
+    animation: l27-1 1.5s infinite;
+  }
+  .loader:after {
+    --s:-1;
+  }
+  @keyframes l27-0 {
+     0%,30%      {transform: rotate(0)}
+     70%         {transform: rotate(120deg)}
+     70.01%,100% {transform: rotate(360deg)}
+  }
+  @keyframes l27-1 {
+     0%      {transform: rotate(calc(var(--s,1)*120deg)) translate(0)}
+     30%,70% {transform: rotate(calc(var(--s,1)*120deg)) translate(calc(var(--s,1)*-5px),10px)}
+     100%    {transform: rotate(calc(var(--s,1)*120deg)) translate(0)}
+  }

@@ -1,20 +1,22 @@
 #detalhe-fundo-correcao-redacao {
-    width: 100vw;
-    height: 300px;
+    width: 100%;
+    max-height: 500px;
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
+    position: fixed;
+    top: 0;
+    left: 0;
 }
 
 #nav-bar-correcao-redacao {
-    width: 220px;
-    height: 680px;
-    border-radius: 20px;
-
-    margin-left: 20px;
-    margin-top: -100px;
-
-    position: absolute;
+    position: fixed;
+    top: 190px;
+    left: 20px;
+    width: 170px;
+    height: 70vh;
+    z-index: 10;
+    background-color: transparent;
 }
 
 #icone-correcao-redacao {
@@ -103,38 +105,39 @@
 }
 
 #logo-atlas-menor-correcao-redacao {
-    width: 130px;
-    height: 40px;
-
-    margin-top: 590px;
-    margin-left: 35px;
-
-    position: absolute;
-    z-index: 1;
-}
-
-#logo-atlas-menor-correcao-redacao {
     width: 40px;
     height: 45px;
 
-    margin-top: 600px;
+    margin-top: 630px;
     margin-left: 20px;
 
     position: absolute;
     z-index: 1;
 }
 
+#container-card-correcao-redacao {
+    width: 100%;
+    height: auto;
+    max-height: 100vh;
+    max-width: 1560;
+    display: flex;
+}
+
 #card-correcao-redacao {
-    width: 1760px;
-    height: 860px;
+    width: 100%;
+    max-width: 1720px;
+    height: auto;
+    max-height: 100vh;
+
     background-color: var(--fundo-card-login);
     box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.2);
     border-radius: 20px;
 
-    position: absolute;
+    position: relative;
 
-    margin-top: -275px;
-    margin-left: 130px;
+    margin: 20px;
+    margin-left: 120px;
+    padding: 20px;
 }
 
 #back-btn-correcao-redacao {
@@ -153,14 +156,16 @@
 }
 
 #container-left-correcao-redacao {
-    width: 900px;
-    height: 860px;
+    width: 100%;
+    max-width: 900px;
+    height: auto;
 
+    display: flex;
     flex-direction: column;
-    position: absolute;
+    background: transparent !important;
 
     margin-left: 180px;
-
+    margin-top: -40px;
 }
 
 #tema {
@@ -170,7 +175,7 @@
     border-bottom: 1px solid grey;
 
     margin-top: 60px;
-    padding-bottom: 30px;
+    padding-bottom: 60px;
 }   
 
 #tema h2 {
@@ -241,7 +246,7 @@
     align-items: center;
     justify-content: center;
 
-    margin-left: 1130px;
+    margin-left: 0px;
     margin-top: 80px;
 }
 
@@ -288,7 +293,7 @@
     color: var(--cor-secundaria);
 
     padding-bottom: 20px;
-    margin-top: 50px;
+    margin-top: 38px;
 }
 
 #container-right-correcao-redacao #analiseGeralTexto {
@@ -559,4 +564,153 @@
 ::-webkit-scrollbar-thumb {
     background-color: var(--cor-principal);
     border-radius: 20px;
+}
+
+@media screen and (max-width: 1440px) {
+    #container-card-correcao-redacao {
+        max-height: 95vh;
+        gap: 30px;
+    }
+
+    #container-left-correcao-redacao {
+        width: 100%;
+        max-width: 600px;
+        max-height: 95vh;
+        margin-left: 60px;
+    }
+
+    #textoTema {
+        width: 100%;
+        max-width: 500px;
+    }
+
+    #tema {
+        width: 100%;
+        max-width: 520px;
+        height: 100px;
+    }
+
+    #temaRedacao {
+        width: 100%;
+        max-width: 500px;
+    }
+
+    #redacao {
+        width: 100%;
+        max-width: 500px;
+    }
+
+    #container-right-correcao-redacao {
+        width: 100%;
+        max-width: 600px;
+        max-height: 95vh;
+        margin-top: 8px;
+    }
+
+    #card-correcao-redacao {
+        width: 90%;
+        max-width: 1260px;
+        max-height: 95vh;
+    }
+
+    #logo-atlas-menor-correcao-redacao {
+        margin-top: 570px;
+    }
+
+    #btn-share {
+        position: relative;
+        top: 40px;
+        right: 40px;
+
+    }
+
+    #back-btn-correcao-redacao {
+        margin-left: -50px;
+        margin-top: 50px;
+    }
+
+    
+}
+
+@media screen and (max-width: 1366px) {
+    #container-card-correcao-redacao {
+        max-height: 100vh;
+        gap: 30px;
+    }
+
+    #container-left-correcao-redacao {
+        width: 100%;
+        max-width: 600px;
+        max-height: 95vh;
+        margin-left: 55px;
+    }
+
+    #textoTema {
+        width: 100%;
+        max-width: 450px;
+    }
+
+    #tema {
+        width: 100%;
+        max-width: 465px;
+        height: 100px;
+    }
+
+    #temaRedacao {
+        width: 100%;
+        max-width: 450px;
+    }
+
+    #redacao {
+        width: 100%;
+        max-width: 450px;
+    }
+
+    #container-right-correcao-redacao {
+        width: 100%;
+        max-width: 600px;
+        max-height: 88vh;
+        margin-top: 8px;
+        margin-left: 10px;
+        background: transparent !important;
+    }
+
+    #card-correcao-redacao {
+        width: 100%;
+        max-width: 1186px;
+        max-height: 100vh;
+    }
+
+    #logo-atlas-menor-correcao-redacao {
+        margin-top: 500px;
+    }
+
+    #btn-share {
+        position: relative;
+        top: 40px;
+        right: 40px;
+
+    }
+
+    #back-btn-correcao-redacao {
+        margin-left: -40px;
+        margin-top: 50px;
+    }
+
+    #analiseGeral {
+        margin-top: 10px;
+    }
+
+    #container-right-correcao-redacao #analiseGeralTexto {
+        width: 500px;
+    }
+
+    #container-right-correcao-redacao h2 {
+        padding-top: 10px;
+    }
+
+    #title-model-redacao {
+        background: transparent !important;
+    }
+
 }
