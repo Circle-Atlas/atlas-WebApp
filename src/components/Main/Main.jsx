@@ -546,6 +546,7 @@ useEffect(() => {
 
                     if (content === "") {
                       alert("Você deve digitar algo.");
+                      setLoading(false)
                       return;
                     }
 
